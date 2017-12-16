@@ -10,7 +10,125 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215173928) do
+ActiveRecord::Schema.define(version: 20171216024025) do
+
+  create_table "artist_genres", force: :cascade do |t|
+    t.integer "artist_id"
+    t.integer "genre_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "artist_users", force: :cascade do |t|
+    t.integer "artist_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "artists", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "backing_track_licks", force: :cascade do |t|
+    t.integer "backing_track_id"
+    t.integer "lick_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "backing_track_tonalities", force: :cascade do |t|
+    t.integer "backing_track_id"
+    t.integer "tonality_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "backing_track_users", force: :cascade do |t|
+    t.integer "backing_track_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "backing_tracks", force: :cascade do |t|
+    t.string "name"
+    t.integer "bpm"
+    t.datetime "last_practiced"
+    t.string "key"
+    t.text "description"
+    t.string "link"
+    t.integer "artist_id"
+    t.integer "genre_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "genre_licks", force: :cascade do |t|
+    t.integer "genre_id"
+    t.integer "lick_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "genres", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "lick_tonalities", force: :cascade do |t|
+    t.integer "lick_id"
+    t.integer "tonality_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "licks", force: :cascade do |t|
+    t.string "name"
+    t.integer "bpm"
+    t.datetime "last_practiced"
+    t.datetime "scheduled_practice"
+    t.string "current_key"
+    t.text "description"
+    t.string "link"
+    t.integer "performance_rating"
+    t.datetime "date_created"
+    t.integer "artist_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tonalities", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tunes", force: :cascade do |t|
+    t.string "name"
+    t.datetime "last_practiced"
+    t.datetime "scheduled_practice"
+    t.string "key"
+    t.string "link"
+    t.text "description"
+    t.integer "performance_rating"
+    t.integer "user_id"
+    t.integer "artist_id"
+    t.integer "genre_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name"
