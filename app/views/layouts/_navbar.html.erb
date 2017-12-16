@@ -1,10 +1,6 @@
 <% if logged_in? %>
-  <p>link for home (user's home)</p>
-  <p>link for "My Licks"</p>
-  <p>Link for "My Tunes"</p>
-  <p>Link for Sign Out</p>
+  <p><%= link_to "Home", home_path %> | <%= link_to "My Licks", user_licks_path(current_user) %> | <%= link_to "My Tunes", user_tunes_path(current_user) %> | <%= link_to "Sign Out", users_sign_out_path %></p>
 <% else %>
-  <p>link for home</p>
-  <p>link for sign in</p>
-  <p>link for sign up</p>
+  <p>link for home | link for sign in | link for sign up</p>
+  <p><%= link_to "Home", home_path %> | <%= link_to "My Licks", user_licks_path(current_user) %> | <%= link_to "My Tunes", user_tunes_path(current_user) %> | <%= link_to "Sign Out", users_sign_out_path %></p>
 <% end %>
