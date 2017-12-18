@@ -45,8 +45,13 @@ class User < ApplicationRecord
   end
 
   def set_location=(location)
-    loc = Location.find_or_create_by(name: location)
-    loc.users << self
+    if location.blank?
+      Location.find_by(name: self.location_name).users.delete(self)
+      self.update(location: nil)
+    else
+      loc = Location.find_or_create_by(name: location)
+      loc.users << self
+    end
   end
 
   def location_name
