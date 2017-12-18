@@ -9,4 +9,9 @@ class ApplicationController < ActionController::Base
   def current_user
     User.find_by(id: session[:user_id])
   end
+
+  def authenticate_owner
+    # Add logic here for checking whether the user is logged in and is the
+    # owner of the content they are trying to access.
+  end
 end
