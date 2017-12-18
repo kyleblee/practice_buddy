@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/users/sign_in' => 'sessions#new'
   get '/home' => 'sessions#index'
   get 'users/sign_out' => 'sessions#destroy'
+  get '/auth/facebook/callback' => 'users#create'
 
   resources :users, only: [:index, :show, :edit, :update, :create] do
     resources :licks
