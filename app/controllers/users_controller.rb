@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user!, only: [:show]
   before_action :not_logged_in?, only: [:new, :create]
 
   def new
@@ -20,6 +21,13 @@ class UsersController < ApplicationController
       else
         render :new
       end
+    end
+  end
+
+  def show
+    @user = User.find_by(id: params[:id])
+    if !@user
+      # add a "user not found" view or message
     end
   end
 

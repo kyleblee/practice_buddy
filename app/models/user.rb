@@ -21,4 +21,16 @@ class User < ApplicationRecord
       u.password = SecureRandom.hex(9) # in order to persist to the database, through has_secure_password
     end
   end
+
+  def lick_count
+    self.licks.count
+  end
+
+  def tune_count
+    self.tunes.count
+  end
+
+  def wanted_attr_for_list(key, value)
+    key == "email" || key == "description" || key == "location_id"
+  end
 end

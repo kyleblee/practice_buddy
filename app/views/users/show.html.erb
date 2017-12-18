@@ -1,0 +1,16 @@
+<h2><%= @user.name %><% if @user.admin %> (admin)<% end %></h2>
+<%= @user.image unless nil %>
+<h3>Information</h3>
+<ul>
+  <% @user.attributes.each do |key, value| %>
+    <% if !value.nil? && @user.wanted_attr_for_list(key, value) %>
+      <% if key == "location_id" %>
+        <li><strong>Location:</strong> <%= @user.location.name %></li>
+      <% else %>
+        <li><strong><%= key.capitalize %>:</strong> <%= value %></li>
+      <% end %>
+    <% end %>
+  <% end %>
+  <li><strong>Number of Licks:</strong> <%= @user.lick_count %></li>
+  <li><strong>Number of Tunes:</strong> <%= @user.tune_count %></li>
+</ul>
