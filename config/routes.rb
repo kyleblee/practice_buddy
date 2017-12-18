@@ -3,9 +3,9 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   get '/users/sign_up' => 'users#new'
-  get '/users/sign_in' => 'session#new'
-  get '/home' => 'session#index'
-  get 'users/sign_out' => 'session#delete'
+  get '/users/sign_in' => 'sessions#new'
+  get '/home' => 'sessions#index'
+  get 'users/sign_out' => 'sessions#destroy'
 
   resources :users, only: [:index, :show, :edit, :update, :create] do
     resources :licks
