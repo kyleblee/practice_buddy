@@ -1,5 +1,5 @@
 <h2><%= @user.name %><% if @user.admin %> (admin)<% end %></h2>
-<%= @user.image unless nil %>
+<% if @user.image %><img src="<%= @user.image %>"><% end %>
 <h3>Information</h3>
 <ul>
   <% @user.attributes.each do |key, value| %>
@@ -14,3 +14,4 @@
   <li><strong>Number of Licks:</strong> <%= @user.lick_count %></li>
   <li><strong>Number of Tunes:</strong> <%= @user.tune_count %></li>
 </ul>
+<%= link_to "See all users", users_path %>
