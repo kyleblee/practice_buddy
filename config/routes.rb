@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'users/sign_out' => 'sessions#destroy'
   get '/auth/facebook/callback' => 'users#create'
 
+  resources :sessions, only: [:create]
+
   resources :users, only: [:index, :show, :edit, :update, :create] do
     resources :licks
     resources :tunes

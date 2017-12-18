@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:show]
   before_action :not_logged_in?, only: [:new, :create]
-  before_action :authenticate_owner!
+  before_action :authenticate_owner!, only: [:edit, :update]
+  before_action :set_user, only: [:show, :edit]
 
   def new
     @user = User.new
@@ -26,7 +27,6 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find_by(id: params[:id])
     if @user
       render :show
     else
@@ -46,5 +46,9 @@ class UsersController < ApplicationController
 
   def auth
     request.env['omniauth.auth']
+  end
+
+  def set_user
+    @user = User.find_by(id: params[:id])
   end
 end
