@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   before_action :authenticate_user!, only: [:index]
+  before_action :not_logged_in?, only: [:new, :create]
 
   def new
 

@@ -18,4 +18,8 @@ class ApplicationController < ActionController::Base
     # Add logic here for checking whether the user is logged in and is the
     # owner of the content they are trying to access.
   end
+
+  def not_logged_in?
+    redirect_to home_url if logged_in?
+  end
 end
