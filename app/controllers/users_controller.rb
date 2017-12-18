@@ -55,8 +55,4 @@ class UsersController < ApplicationController
   def auth
     request.env['omniauth.auth']
   end
-
-  def set_user
-    @user = User.find_by(id: params[:id])
-  end
 end

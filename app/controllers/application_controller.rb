@@ -15,12 +15,20 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_owner!
-    unless logged_in? && current_user == User.find_by(id: params[:id])
+    unless logged_in? && User.owner?(current_user, params)
       redirect_to home_path
     end
   end
 
   def not_logged_in?
     redirect_to home_url if logged_in?
+  end
+
+  def set_user
+    if params[:user_id]
+      @user = User.find_by(id: params[:user_id])
+    else
+      @user = User.find_by(id: params[:id])
+    end
   end
 end
