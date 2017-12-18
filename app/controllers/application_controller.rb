@@ -14,9 +14,10 @@ class ApplicationController < ActionController::Base
     redirect_to users_sign_in_url if !logged_in?
   end
 
-  def authenticate_owner
-    # Add logic here for checking whether the user is logged in and is the
-    # owner of the content they are trying to access.
+  def authenticate_owner!
+    unless logged_in? && current_user == User.find_by(id: params[:id])
+      redirect_to home_path
+    end
   end
 
   def not_logged_in?

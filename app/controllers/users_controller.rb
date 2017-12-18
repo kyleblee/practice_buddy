@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!, only: [:show]
   before_action :not_logged_in?, only: [:new, :create]
+  before_action :authenticate_owner!
 
   def new
     @user = User.new
@@ -31,6 +32,10 @@ class UsersController < ApplicationController
     else
       render :not_found
     end
+  end
+
+  def edit
+
   end
 
   private
