@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171216024025) do
+ActiveRecord::Schema.define(version: 20171218025450) do
 
   create_table "artist_genres", force: :cascade do |t|
     t.integer "artist_id"
@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 20171216024025) do
     t.string "uid"
     t.string "image"
     t.text "description"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.integer "location_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
