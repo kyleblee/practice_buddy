@@ -48,4 +48,8 @@ class User < ApplicationRecord
     loc = Location.find_or_create_by(name: location)
     loc.users << self
   end
+
+  def location_name
+    self.location.try(:name)
+  end
 end

@@ -14,4 +14,5 @@
   <li><strong>Number of Licks:</strong> <%= @user.lick_count %></li>
   <li><strong>Number of Tunes:</strong> <%= @user.tune_count %></li>
 </ul>
+<% if current_user == @user %><%= link_to "Edit Information", edit_user_path %><br><% end %>
 <%= link_to "See all users", users_path %>

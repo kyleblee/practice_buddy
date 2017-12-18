@@ -7,6 +7,6 @@
   <%= f.label :description %><br>
   <%= f.text_area :description %><br>
   <%= label_tag "Location" %><br>
-  <%= text_field_tag name="user[set_location]" %><br>
+  <%= text_field_tag name="user[set_location]", value=@user.location_name %><br>
   <%= f.submit "Update" %>
 <% end %>
