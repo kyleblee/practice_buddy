@@ -8,12 +8,7 @@ class UsersController < ApplicationController
   def create
     if auth
       # Omniauth signup / login
-      @user = User.find_or_create_by(uid: auth[:uid]) do |u|
-        u.name = auth[:info][:name]
-        u.email = auth[:info][:email]
-        u.image = auth[:info][:image]
-        u.password = SecureRandom.hex(9)
-      end
+      @user = User.find_or_create_with_oauth(auth)
       session[:user_id] = @user.id
       redirect_to home_url
     else
