@@ -1,5 +1,6 @@
 <ul>
   <% @licks.each do |l| %>
-    <li><%= l.name %></li>
+    <% binding.pry %>
+    <li><%= l.name %> (<%= l.tonality_list unless l.tonalities.empty? %>)</li>
   <% end %>
 </ul>
