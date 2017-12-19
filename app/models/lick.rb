@@ -48,8 +48,9 @@ class Lick < ApplicationRecord
 
   def self.filter_and_sort_licks(user, params)
     filtered_collection = self.filter_licks(user, params[:filter])
-    sorted_collection
-    # then, take that collection (either filtered, or not) and run sort_licks on it
+    sorted_collection = self.sort_licks(filtered_collection, params[:sort])
+
+    # Then, take that collection (either filtered, or not) and run sort_licks on it
     # return filtered / sorted collection
   end
 
@@ -63,11 +64,44 @@ class Lick < ApplicationRecord
     end
   end
 
-  def self.sort_licks
-    
+  def self.sort_licks(collection, sort_by)
+    case sort_by
+    when "Tonality"
+      tonality_sort(collection)
+    when "Artist"
+      artist_sort(collection)
+    when "Date Last Practiced"
+      date_last_practiced_sort(collection)
+    when "Scheduled Practice Date"
+      scheduled_practice_sort(collection)
+    else
+      collection
+    end
   end
 
   def tonalities_names
-    self.tonalities.collect{|t| t.name}
+    names = self.tonalities.collect{|t| t.name}
+  end
+
+  def self.tonality_sort(collection)
+    tonality_hash = {}
+
+    # Collect unique tonality names to be used as keys
+    tonality_names = collection.collect{|l| l.tonalities_names}.flatten.uniq
+
+    # Use those unique tonality names to set hash keys and generate collections
+    # of licks with those specific tonalities
+    tonality_names.each do |t|
+      tonality_hash[t] ||= []
+      tonality_hash[t] << collection.select{|l| l.tonalities_names.include?(t)}
+      tonality_hash[t].flatten!
+    end
+
+    # Handle licks with no tonalities for the final collection
+    no_tonality_licks = collection.select{|l| l.tonalities.blank?}
+    tonality_hash["No Tonality"] = no_tonality_licks unless no_tonality_licks.blank?
+
+    # return this hash to be iterated through in the view
+    tonality_hash
   end
 end
