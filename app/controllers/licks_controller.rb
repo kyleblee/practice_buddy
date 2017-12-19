@@ -3,8 +3,9 @@ class LicksController < ApplicationController
   before_action :set_user
 
   def index
+    @user = current_user
     @licks = @user.licks
-    # first, figure out what format you want the licks to be in
-    # then, add the filter logic (which should be mostly handled in the model)
+    # Need to add logic that accomodates if filters / sorts have been selected.
+    # They are reaching params correctly now.
   end
 end

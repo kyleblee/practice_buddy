@@ -11,6 +11,13 @@ class Lick < ApplicationRecord
   validates :name, presence: true
   validates :performance_rating, :inclusion => { :in => 1..5 }, allow_nil: true
 
+  SORT_OPTIONS = [
+    "Tonality",
+    "Artist",
+    "Date Last Practiced",
+    "Scheduled Practice Date"
+  ]
+
   def tonality_list(lick)
     unless lick.tonalities.empty?
       return_list = "("
@@ -22,5 +29,20 @@ class Lick < ApplicationRecord
       return_list << list.join + ")"
     end
     return_list
+  end
+
+  def self.grouped_options(user)
+    tonalities = user.licks.collect do |l|
+      l.tonalities.collect do |t|
+        t.name
+      end
+    end
+    artists = user.licks.reject{|l| l.artist.try(:name) == nil}.collect do |l|
+      l.artist.name
+    end
+    options = [
+      ["Tonalities", tonalities.flatten],
+      ["Artists", artists]
+    ]
   end
 end

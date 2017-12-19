@@ -1,5 +1,17 @@
+<h2>My Licks</h2>
+
+<%= form_tag(user_licks_path(@user), method: 'get') do %>
+  <%= label_tag "Filter by:" %>
+  <%= select_tag :filter, grouped_options_for_select(Lick.grouped_options(@user)), {include_blank: true} %>
+  <%= label_tag "Sort by:" %>
+  <%= select_tag :sort, options_for_select(Lick::SORT_OPTIONS), {include_blank: true} %>
+  <%= submit_tag "Filter and Sort" %>
+<% end %>
+
 <ul>
   <% @licks.each do |l| %>
-    <li><strong><%= l.name %></strong> <%= l.tonality_list(l) %></li>
+    <li><strong><%= link_to l.name, user_lick_path(@user, l) %></strong> <%= l.tonality_list(l) %></li>
   <% end %>
 </ul>
+
+<%= button_to "Add a new lick", new_user_lick_path(@user) %>
