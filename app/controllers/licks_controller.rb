@@ -4,7 +4,7 @@ class LicksController < ApplicationController
 
   def index
     @user = current_user
-    @licks = @user.licks
+    @licks = Lick.filter_and_sort_licks(@user, params)
     # Need to add logic that accomodates if filters / sorts have been selected.
     # They are reaching params correctly now.
   end

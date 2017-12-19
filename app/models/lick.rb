@@ -45,4 +45,29 @@ class Lick < ApplicationRecord
       ["Artists", artists]
     ]
   end
+
+  def self.filter_and_sort_licks(user, params)
+    filtered_collection = self.filter_licks(user, params[:filter])
+    sorted_collection
+    # then, take that collection (either filtered, or not) and run sort_licks on it
+    # return filtered / sorted collection
+  end
+
+  def self.filter_licks(user, filter)
+    if filter.blank?
+      user.licks
+    elsif artist_filter = Artist.find_by(name: filter)
+      user.licks.where("artist_id = ?", artist_filter.id)
+    else
+      user.licks.select {|l| l.tonalities_names.include?(filter)}
+    end
+  end
+
+  def self.sort_licks
+    
+  end
+
+  def tonalities_names
+    self.tonalities.collect{|t| t.name}
+  end
 end
