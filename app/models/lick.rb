@@ -11,10 +11,16 @@ class Lick < ApplicationRecord
   validates :name, presence: true
   validates :performance_rating, :inclusion => { :in => 1..5 }, allow_nil: true
 
-  def tonality_list
-    binding.pry
-    self.tonalities.each_with_index do |i, t|
-      binding.pry
+  def tonality_list(lick)
+    unless lick.tonalities.empty?
+      return_list = "("
+
+      list = self.tonalities.enum_for(:each_with_index).collect do |t, i|
+        i == 0 ? t.name : ", #{t.name}"
+      end
+
+      return_list << list.join + ")"
     end
+    return_list
   end
 end
