@@ -1,0 +1,8 @@
+<% licks.each do |n, lick_array| %>
+  <h4><%= n %></h4>
+  <ul>
+    <% lick_array.each do |l| %>
+      <li><%= link_to l.name, user_lick_path(user, l) %></li>
+    <% end %>
+  </ul>
+<% end %>

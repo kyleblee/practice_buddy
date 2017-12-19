@@ -18,8 +18,8 @@ class Lick < ApplicationRecord
     "Scheduled Practice Date"
   ]
 
-  def tonality_list(lick)
-    unless lick.tonalities.empty?
+  def tonality_list
+    unless self.tonalities.empty?
       return_list = "("
 
       list = self.tonalities.enum_for(:each_with_index).collect do |t, i|
@@ -48,10 +48,7 @@ class Lick < ApplicationRecord
 
   def self.filter_and_sort_licks(user, params)
     filtered_collection = self.filter_licks(user, params[:filter])
-    sorted_collection = self.sort_licks(filtered_collection, params[:sort])
-
-    # Then, take that collection (either filtered, or not) and run sort_licks on it
-    # return filtered / sorted collection
+    filtered_and_sorted_collection = self.sort_licks(filtered_collection, params[:sort])
   end
 
   def self.filter_licks(user, filter)
@@ -65,17 +62,10 @@ class Lick < ApplicationRecord
   end
 
   def self.sort_licks(collection, sort_by)
-    case sort_by
-    when "Tonality"
-      tonality_sort(collection)
-    when "Artist"
-      artist_sort(collection)
-    when "Date Last Practiced"
-      date_last_practiced_sort(collection)
-    when "Scheduled Practice Date"
-      scheduled_practice_sort(collection)
-    else
+    if sort_by.blank? || sort_by.nil?
       collection
+    else
+      self.send("#{sort_by.downcase.gsub(" ", "_")}_sort", collection)
     end
   end
 
@@ -103,5 +93,36 @@ class Lick < ApplicationRecord
 
     # return this hash to be iterated through in the view
     tonality_hash
+  end
+
+  def self.artist_sort(collection)
+    artist_hash = {}
+    artist_names = self.remove_nil_artists(collection).collect{|l| l.artist.name}.uniq
+
+    artist_names.each do |a|
+      artist_hash[a] ||= []
+      artist_hash[a] << collection.select{|l| l.artist.try(:name) == a}
+      artist_hash[a].flatten!
+    end
+
+    no_artist_licks = collection.select{|l| l.artist.nil?}
+    artist_hash["No Artist"] = no_artist_licks
+    artist_hash
+  end
+
+  def self.remove_nil_artists(collection)
+    collection.reject{|l| l.artist == nil}
+  end
+
+  def self.date_last_practiced_sort(collection)
+    # COME BACK AND FINISH THIS ONCE YOU HAVE FIGURE OUT EXACTLY WHAT THE DATETIMES WILL LOOK LIKE
+    # ordered_collection = collection.reject{|l| l.last_practiced.nil?}
+    # binding.pry
+    # only_nil = collection.select{|l| l.date_last_practiced.nil?}
+    # collection_without_nil
+  end
+
+  def self.scheduled_practice_date_sort(collection)
+    # COME BACK AND FINISH THIS ONCE YOU HAVE FIGURE OUT EXACTLY WHAT THE DATETIMES WILL LOOK LIKE
   end
 end

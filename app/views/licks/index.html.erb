@@ -8,6 +8,6 @@
   <%= submit_tag "Filter and Sort" %>
 <% end %>
 
-<% render_sorted_view(@user, params) %>
+<%= render_sorted_view(@user, @licks, params) %>
 
 <%= button_to "Add a new lick", new_user_lick_path(@user) %>
