@@ -12,15 +12,18 @@
   <%= f.label "Select an existing artist for this lick:" %>
   <%= f.collection_select :artist_id, Artist.all, :id, :name, {include_blank: true} %><br>
   <%= f.label "Or, create a new artist:" %>
-  <%= f.fields_for :artist, @lick.build_artist do |artist_fields| %>
+  <%= f.fields_for "new_artist", @lick.build_artist do |artist_fields| %>
     <%= artist_fields.text_field :name %>
   <% end %><br><br>
 
   <%= f.label "Select which tonalities this lick works well in:" %><br>
   <%= f.collection_check_boxes :tonalities, Tonality.all, :id, :name %><br><br>
   <%= f.label "And/Or, add a couple new tonalities:" %><br>
-  <%= text_field_tag "new_tonalities[]" %><br>
-  <%= text_field_tag "new_tonalities[]" %><br><br>
+  <% @lick.tonalities.each do |tonality| %>
+    <%= f.fields_for "new_tonalities[]", tonality do |t| %>
+      <%= t.text_field :name %><br>
+    <% end %>
+  <% end %>
 
   <%= f.label :performance_rating %>
   <%= f.number_field :performance_rating %><br><br>

@@ -18,6 +18,14 @@ class Lick < ApplicationRecord
     "Scheduled Practice Date"
   ]
 
+  def new_tonalities=(tonalities_attr)
+    binding.pry
+  end
+
+  def new_artist=(artist_attr)
+    binding.pry
+  end
+
   def tonality_list
     unless self.tonalities.empty?
       return_list = "("
