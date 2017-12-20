@@ -4,6 +4,8 @@ module LicksHelper
       render partial: "sort_with_headers", locals: {user: user, licks: licks}
     elsif params[:sort] == "Date Last Practiced"
       render partial: "sort_without_headers", locals: {user: user, licks: licks, extra_info_method: :date_last_practiced}
+    elsif params[:sort] == "Scheduled Practice Date"
+      render partial: "sort_without_headers", locals: {user: user, licks: licks, extra_info_method: :scheduled_practice_date}
     else
       render partial: "sort_without_headers", locals: {user: user, licks: licks, extra_info_method: :tonality_list}
     end
@@ -27,6 +29,14 @@ module LicksHelper
       lick.last_practiced.strftime("(%b %e, %Y)")
     else
       "(no previous practice)"
+    end
+  end
+
+  def scheduled_practice_date(lick)
+    if lick.scheduled_practice
+      lick.scheduled_practice.strftime("(%b %e, %Y)")
+    else
+      "(no practice scheduled)"
     end
   end
 end

@@ -130,6 +130,6 @@ class Lick < ApplicationRecord
   end
 
   def self.scheduled_practice_date_sort(collection)
-    # COME BACK AND FINISH THIS ONCE YOU HAVE FIGURE OUT EXACTLY WHAT THE DATETIMES WILL LOOK LIKE
+    ordered_collection = collection.order("scheduled_practice DESC")
   end
 end

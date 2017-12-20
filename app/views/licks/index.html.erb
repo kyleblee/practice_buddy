@@ -4,7 +4,7 @@
   <%= label_tag "Filter by:" %>
   <%= select_tag :filter, grouped_options_for_select(Lick.grouped_options(@user)), {include_blank: true} %>
   <%= label_tag "Sort by:" %>
-  <%= select_tag :sort, options_for_select(Lick::SORT_OPTIONS), {include_blank: true} %><br>
+  <%= select_tag :sort, options_for_select(Lick::SORT_OPTIONS), {include_blank: true} %><br><br>
   <%= submit_tag "Filter and Sort" %>
 <% end %>
 
