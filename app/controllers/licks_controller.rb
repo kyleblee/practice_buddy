@@ -14,6 +14,7 @@ class LicksController < ApplicationController
 
   def create
     @lick = @user.licks.create(clean_lick_params(lick_params))
+    binding.pry
     if @lick.valid?
       redirect_to user_lick_url(@user, @lick)
     else
@@ -44,7 +45,8 @@ class LicksController < ApplicationController
     params.require(:lick).permit(:name, :bpm, :current_key, :link, :artist_id,
       {new_artist: [:name]}, {tonality_ids: []}, {new_tonalities: [:name]}, :performance_rating,
       "last_practiced(1i)", "last_practiced(2i)", "last_practiced(3i)", "scheduled_practice(1i)",
-      "scheduled_practice(2i)", "scheduled_practice(3i)", :description)
+      "scheduled_practice(2i)", "scheduled_practice(3i)", :description, {backing_track_ids: []},
+      {new_backing_track: [:name, :link]})
   end
 
   def clean_lick_params(lick_params)

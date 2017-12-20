@@ -7,6 +7,14 @@
   <%= f.text_field :current_key %><br><br>
   <%= f.label :link %>
   <%= f.text_field :link %><br><br>
+  <%= f.label :performance_rating %>
+  <%= f.number_field :performance_rating %><br><br>
+  <%= f.label :last_practiced %>
+  <%= f.date_select :last_practiced, {include_blank: true} %><br><br>
+  <%= f.label :scheduled_practice %>
+  <%= f.date_select :scheduled_practice, {include_blank: true} %><br><br>
+  <%= f.label :description %><br>
+  <%= f.text_area :description %><br><br>
 
   <%= f.label "Select an existing artist for this lick:" %>
   <%= f.collection_select :artist_id, Artist.all, :id, :name, {include_blank: true} %><br>
@@ -17,22 +25,23 @@
 
   <%= f.label "Select which tonalities this lick works well in:" %><br>
   <%= f.collection_check_boxes :tonality_ids, Tonality.all, :id, :name %><br><br>
-  <%= f.label "And/Or, add a couple new tonalities:" %><br>
+  <%= f.label "And/Or, add a couple new tonalities:" %>
   <% @tonalities.each do |tonality| %>
     <%= f.fields_for "new_tonalities[]", tonality do |t| %>
-      <%= t.text_field :name %><br>
+      <%= t.text_field :name %>
     <% end %>
-  <% end %>
+  <% end %><br><br>
 
-  <%= f.label :performance_rating %>
-  <%= f.number_field :performance_rating %><br><br>
-  <%= f.label :last_practiced %>
-  <%= f.date_select :last_practiced, {include_blank: true} %><br><br>
-  <%= f.label :scheduled_practice %>
-  <%= f.date_select :scheduled_practice, {include_blank: true} %><br><br>
+  <%= f.label "Select some backing tracks to apply this lick over:" %><br>
+  <%= f.collection_check_boxes :backing_track_ids, BackingTrack.all, :id, :name %><br><br>
+  <%= f.label "And/Or, add a new backing track:" %><br>
+  <%= f.fields_for "new_backing_track", @lick.backing_tracks.build do |bt| %>
+    <%= bt.label :name%>
+    <%= bt.text_field :name %><br>
+    <%= bt.label :link %>
+    <%= bt.text_field :link %>
+  <% end %><br><br>
 
-  <%= f.label :description %><br>
-  <%= f.text_area :description %><br><br>
 
   <%= f.submit "Save Lick" %>
 <% end %>

@@ -7,4 +7,7 @@ class BackingTrack < ApplicationRecord
   has_many :users, through: :backing_track_users
   belongs_to :artist, optional: true
   belongs_to :genre, optional: true
+
+  validates :name, presence: true
+  validates :link, presence: true
 end

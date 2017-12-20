@@ -33,6 +33,29 @@ class Lick < ApplicationRecord
     tonalities_attr[0][:name].blank? && tonalities_attr[1][:name].blank?
   end
 
+  def new_backing_track=(backing_track_attr)
+    unless backing_track_blank?(backing_track_attr)
+      backing_track = BackingTrack.find_or_create_by(name: backing_track_attr[:name], link: backing_track_attr[:link])
+      self.backing_track_licks.build(backing_track: backing_track)
+    end
+  end
+
+  def backing_track_blank?(attributes)
+    attributes["name"].blank? || attributes["link"].blank?
+  end
+
+  def clean_backing_track_attr(backing_track_attr)
+    cleaned_attr = {}
+    backing_track_attr.each do |k,v|
+      if v.blank?
+        cleaned_attr[k] = nil
+      else
+        cleaned_attr[k] = v
+      end
+    end
+    cleaned_attr
+  end
+
   def new_artist=(artist_attr)
     if artist_attr[:name].blank?
       self.artist_id ||= nil
