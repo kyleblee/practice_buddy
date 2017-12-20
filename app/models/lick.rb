@@ -42,19 +42,6 @@ class Lick < ApplicationRecord
     end
   end
 
-  def tonality_list
-    unless self.tonalities.empty?
-      return_list = "("
-
-      list = self.tonalities.enum_for(:each_with_index).collect do |t, i|
-        i == 0 ? t.name : ", #{t.name}"
-      end
-
-      return_list << list.join + ")"
-    end
-    return_list
-  end
-
   def self.grouped_options(user)
     tonalities = user.licks.collect do |l|
       l.tonalities.collect do |t|
@@ -139,11 +126,7 @@ class Lick < ApplicationRecord
   end
 
   def self.date_last_practiced_sort(collection)
-    # COME BACK AND FINISH THIS ONCE YOU HAVE FIGURE OUT EXACTLY WHAT THE DATETIMES WILL LOOK LIKE
-    # ordered_collection = collection.reject{|l| l.last_practiced.nil?}
-    # binding.pry
-    # only_nil = collection.select{|l| l.date_last_practiced.nil?}
-    # collection_without_nil
+    ordered_collection = collection.order("last_practiced DESC")
   end
 
   def self.scheduled_practice_date_sort(collection)

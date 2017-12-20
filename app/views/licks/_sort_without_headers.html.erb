@@ -1,5 +1,5 @@
 <ul>
   <% licks.each do |l| %>
-    <li><strong><%= link_to l.name, user_lick_path(user, l) %></strong> <%= l.tonality_list %></li>
+    <li><%= link_to l.name, user_lick_path(user, l) %> <%= send(extra_info_method, l) %></li>
   <% end %>
 </ul>
