@@ -13,7 +13,7 @@ class LicksController < ApplicationController
   end
 
   def create
-    @lick = Lick.new(lick_params)
+    @lick = @user.licks.create(lick_params)
     binding.pry
   end
 
@@ -22,8 +22,8 @@ class LicksController < ApplicationController
   def lick_params
     params.require(:lick).permit(:name, :bpm, :current_key, :link, :artist_id,
       {new_artist: [:name]}, :tonalities, {new_tonalities: [:name]}, :performance_rating,
-      "last_practiced(1i)", "last_practiced(2i)", "last_practiced(3i)",
-      "scheduled_practice(1i)", "scheduled_practice(2i)", "scheduled_practice(3i)", :description)
+      "last_practiced(1i)", "last_practiced(2i)", "last_practiced(3i)", "scheduled_practice(1i)",
+      "scheduled_practice(2i)", "scheduled_practice(3i)", :description)
   end
 
  # {
@@ -45,7 +45,8 @@ class LicksController < ApplicationController
  #     "scheduled_practice(1i)"=>"",
  #     "scheduled_practice(2i)"=>"",
  #     "scheduled_practice(3i)"=>"",
- #     "description"=>""},
+ #     "description"=>""
+ #     },
  #     "commit"=>"Create Lick",
  #     "controller"=>"licks",
  #     "action"=>"create",

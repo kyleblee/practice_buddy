@@ -19,11 +19,27 @@ class Lick < ApplicationRecord
   ]
 
   def new_tonalities=(tonalities_attr)
-    binding.pry
+    unless new_tonalities_blank?(tonalities_attr)
+      tonalities_attr.each do |tonality_attr|
+        unless tonality_attr[:name].blank?
+          tonality = Tonality.find_or_create_by(tonality_attr)
+          self.lick_tonalities.build(tonality: tonality)
+        end
+      end
+    end
+  end
+
+  def new_tonalities_blank?(tonalities_attr)
+    tonalities_attr[0][:name].blank? && tonalities_attr[1][:name].blank?
   end
 
   def new_artist=(artist_attr)
-    binding.pry
+    if artist_attr[:name].blank?
+      self.artist_id = nil
+    else
+      artist = Artist.find_or_create_by(artist_attr)
+      artist.licks << self
+    end
   end
 
   def tonality_list
