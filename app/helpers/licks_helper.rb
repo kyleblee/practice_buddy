@@ -3,7 +3,7 @@ module LicksHelper
     if params[:sort] == "Tonality" || params[:sort] == "Artist"
       render partial: "sort_with_headers", locals: {user: user, licks: licks}
     elsif params[:sort] == "Date Last Practiced"
-      render partial: "sort_without_headers", locals: {user: user, licks: licks, extra_info_method: :date_last_practiced}
+      render partial: "sort_without_headers", locals: {user: user, licks: licks, params: params}
     elsif params[:sort] == "Scheduled Practice Date"
       render partial: "sort_without_headers", locals: {user: user, licks: licks, extra_info_method: :scheduled_practice_date}
     else
@@ -25,6 +25,9 @@ module LicksHelper
   end
 
   def date_last_practiced(lick)
+    # Less than DRY to avoid conditionals having to be called for every list item. This way,
+    # the conditionals are only run once (before the list is rendered) so that the method call
+    # for each item can be a little quicker.
     if lick.last_practiced
       lick.last_practiced.strftime("(%b %e, %Y)")
     else
