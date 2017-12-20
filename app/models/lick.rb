@@ -35,7 +35,7 @@ class Lick < ApplicationRecord
 
   def new_artist=(artist_attr)
     if artist_attr[:name].blank?
-      self.artist_id = nil
+      self.artist_id ||= nil
     else
       artist = Artist.find_or_create_by(artist_attr)
       artist.licks << self
@@ -113,7 +113,7 @@ class Lick < ApplicationRecord
 
     # Handle licks with no tonalities for the final collection
     no_tonality_licks = collection.select{|l| l.tonalities.blank?}
-    tonality_hash["No Tonality"] = no_tonality_licks unless no_tonality_licks.blank?
+    tonality_hash["No Tonality"] = no_tonality_licks unless no_tonality_licks.empty?
 
     # return this hash to be iterated through in the view
     tonality_hash
@@ -130,7 +130,7 @@ class Lick < ApplicationRecord
     end
 
     no_artist_licks = collection.select{|l| l.artist.nil?}
-    artist_hash["No Artist"] = no_artist_licks
+    artist_hash["No Artist"] = no_artist_licks unless no_artist_licks.empty?
     artist_hash
   end
 

@@ -13,7 +13,16 @@ class LicksController < ApplicationController
   end
 
   def create
-    @lick = @user.licks.create(lick_params)
+    @lick = @user.licks.create(clean_lick_params(lick_params))
+    binding.pry
+    if @lick.valid?
+      redirect_to user_lick_url(@user, @lick)
+    else
+      render :new
+    end
+  end
+
+  def show
     binding.pry
   end
 
@@ -21,35 +30,19 @@ class LicksController < ApplicationController
 
   def lick_params
     params.require(:lick).permit(:name, :bpm, :current_key, :link, :artist_id,
-      {new_artist: [:name]}, :tonalities, {new_tonalities: [:name]}, :performance_rating,
+      {new_artist: [:name]}, {tonality_ids: []}, {new_tonalities: [:name]}, :performance_rating,
       "last_practiced(1i)", "last_practiced(2i)", "last_practiced(3i)", "scheduled_practice(1i)",
       "scheduled_practice(2i)", "scheduled_practice(3i)", :description)
   end
 
- # {
- #   "utf8"=>"✓",
- #   "authenticity_token"=>"F9ECHndHab+P/GK5GfmfytZpEldIPUXYXyiIwBN+5SnL2O4oA7DIOCE7+3exY1V5RDGO4o+0qccmPhj5gGsm7A==",
- #   "lick"=> {
- #     "name"=>"",
- #     "bpm"=>"",
- #     "current_key"=>"",
- #     "link"=>"",
- #     "artist_id"=>"",
- #     "artist"=>{"name"=>""},
- #     "tonalities"=>[""],
- #     "new_tonalities"=>[{"name"=>""}, {"name"=>""}],
- #     "performance_rating"=>"",
- #     "last_practiced(1i)"=>"",
- #     "last_practiced(2i)"=>"",
- #     "last_practiced(3i)"=>"",
- #     "scheduled_practice(1i)"=>"",
- #     "scheduled_practice(2i)"=>"",
- #     "scheduled_practice(3i)"=>"",
- #     "description"=>""
- #     },
- #     "commit"=>"Create Lick",
- #     "controller"=>"licks",
- #     "action"=>"create",
- #     "user_id"=>"2"
- #     }
+  def clean_lick_params(lick_params)
+    lick_params.reject do |k,v|
+      if k == "tonality_ids"
+        v.delete("")
+        v.empty?
+      else
+        v.blank?
+      end
+    end
+  end
 end

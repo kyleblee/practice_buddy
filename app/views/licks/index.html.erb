@@ -10,4 +10,4 @@
 
 <%= render_sorted_view(@user, @licks, params) %>
 
-<%= button_to "Add a new lick", new_user_lick_path(@user) %>
+<%= button_to "Add a new lick", new_user_lick_path(@user), method: 'get' %>

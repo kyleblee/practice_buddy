@@ -17,7 +17,7 @@
   <% end %><br><br>
 
   <%= f.label "Select which tonalities this lick works well in:" %><br>
-  <%= f.collection_check_boxes :tonalities, Tonality.all, :id, :name %><br><br>
+  <%= f.collection_check_boxes :tonality_ids, Tonality.all, :id, :name %><br><br>
   <%= f.label "And/Or, add a couple new tonalities:" %><br>
   <% @lick.tonalities.each do |tonality| %>
     <%= f.fields_for "new_tonalities[]", tonality do |t| %>
