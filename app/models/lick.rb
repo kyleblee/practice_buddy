@@ -2,10 +2,10 @@ class Lick < ApplicationRecord
   belongs_to :user
   belongs_to :artist, optional: true
   has_many :lick_tonalities
-  has_many :backing_track_tonalities
+  has_many :backing_track_licks
   has_many :genre_licks
   has_many :tonalities, through: :lick_tonalities
-  has_many :backing_tracks, through: :backing_track_tonalities
+  has_many :backing_tracks, through: :backing_track_licks
   has_many :genres, through: :genre_licks
 
   validates :name, presence: true

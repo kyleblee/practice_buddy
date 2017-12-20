@@ -1,0 +1,9 @@
+<ul>
+  <% if !lick.backing_tracks.empty? %>
+    <% lick.backing_tracks.each do |bt| %>
+      <li><a href="<%= bt.link %>" target="_blank"><%= bt.name %></a></li>
+    <% end %>
+  <% else %>
+    <li>This lick doesn't currently have any backing tracks</li>
+  <% end %>
+</ul>

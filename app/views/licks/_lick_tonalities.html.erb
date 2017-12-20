@@ -1,0 +1,9 @@
+<ul>
+  <% if !lick.tonalities.empty? %>
+    <% lick.tonalities.each do |t| %>
+      <li><%= t.name %></li>
+    <% end %>
+  <% else %>
+    <li>This lick doesn't currently have any tonalities</li>
+  <% end %>
+</ul>

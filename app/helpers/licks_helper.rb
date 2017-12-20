@@ -3,7 +3,7 @@ module LicksHelper
     if params[:sort] == "Tonality" || params[:sort] == "Artist"
       render partial: "sort_with_headers", locals: {user: user, licks: licks}
     elsif params[:sort] == "Date Last Practiced"
-      render partial: "sort_without_headers", locals: {user: user, licks: licks, params: params}
+      render partial: "sort_without_headers", locals: {user: user, licks: licks, extra_info_method: :date_last_practiced}
     elsif params[:sort] == "Scheduled Practice Date"
       render partial: "sort_without_headers", locals: {user: user, licks: licks, extra_info_method: :scheduled_practice_date}
     else
@@ -41,5 +41,17 @@ module LicksHelper
     else
       "(no practice scheduled)"
     end
+  end
+
+  def format_date_for_show(date)
+    if date
+      date.strftime("%b %e, %Y")
+    else
+      "no date is currently set"
+    end
+  end
+
+  def artist_name(lick)
+    " - #{lick.artist.name}" if lick.artist
   end
 end

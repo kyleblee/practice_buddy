@@ -1,0 +1,9 @@
+<ul>
+  <% if lick.bpm %><li><strong>BPM:</strong> <%= lick.bpm %> bpm</li><% end %>
+  <% if lick.current_key %><li><strong>Current Key:</strong> <%= lick.current_key %></li><% end %>
+  <li><strong>Last Practiced:</strong> <%= format_date_for_show(lick.last_practiced) %></li>
+  <li><strong>Scheduled Practice:</strong> <%= format_date_for_show(lick.scheduled_practice) %></li>
+  <% if lick.performance_rating %><li><strong>Performance Rating:</strong> <%= lick.performance_rating %></li><% end %>
+  <% if lick.description %><li><strong>Description:</strong> <%= lick.description %></li><% end %>
+  <li><strong>Date Created:</strong> <%= format_date_for_show(lick.created_at) %></li>
+</ul>

@@ -1,0 +1,10 @@
+<h2><%= @lick.name %><%= artist_name(@lick) %></h2>
+
+<h4>Basic Information</h4>
+<%= render partial: 'basic_info', locals: {lick: @lick} %>
+
+<h4>Tonalities</h4>
+<%= render partial: 'lick_tonalities', locals: {lick: @lick} %>
+
+<h4>Backing Tracks</h4>
+<%= render partial: 'lick_backing_tracks', locals: {lick: @lick} %>

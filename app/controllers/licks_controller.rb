@@ -22,7 +22,7 @@ class LicksController < ApplicationController
   end
 
   def show
-    binding.pry
+    @lick = Lick.find_by(id: params[:id])
   end
 
   def edit
@@ -32,6 +32,10 @@ class LicksController < ApplicationController
       flash[:message] = "Hmm, it doesn't seem like you have a lick like that yet."
       redirect_to user_licks_url(@user)
     end
+  end
+
+  def update
+    binding.pry
   end
 
   private

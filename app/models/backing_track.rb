@@ -5,6 +5,6 @@ class BackingTrack < ApplicationRecord
   has_many :tonalities, through: :backing_track_tonalities
   has_many :licks, through: :backing_track_licks
   has_many :users, through: :backing_track_users
-  belongs_to :artist
-  belongs_to :genre
+  belongs_to :artist, optional: true
+  belongs_to :genre, optional: true
 end
