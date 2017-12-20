@@ -1,0 +1,38 @@
+<%= form_for @lick, url: user_licks_url(@user) do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %><br><br>
+  <%= f.label :bpm %>
+  <%= f.text_field :bpm %><br><br>
+  <%= f.label :current_key %>
+  <%= f.text_field :current_key %><br><br>
+  <%= f.label :link %>
+  <%= f.text_field :link %><br><br>
+
+  <%= f.label "Select an existing artist for this lick:" %>
+  <%= f.collection_select :artist_id, Artist.all, :id, :name, {include_blank: true} %><br>
+  <%= f.label "Or, create a new artist:" %>
+  <%= f.fields_for "new_artist", @lick.build_artist do |artist_fields| %>
+    <%= artist_fields.text_field :name %>
+  <% end %><br><br>
+
+  <%= f.label "Select which tonalities this lick works well in:" %><br>
+  <%= f.collection_check_boxes :tonality_ids, Tonality.all, :id, :name %><br><br>
+  <%= f.label "And/Or, add a couple new tonalities:" %><br>
+  <% @tonalities.each do |tonality| %>
+    <%= f.fields_for "new_tonalities[]", tonality do |t| %>
+      <%= t.text_field :name %><br>
+    <% end %>
+  <% end %>
+
+  <%= f.label :performance_rating %>
+  <%= f.number_field :performance_rating %><br><br>
+  <%= f.label :last_practiced %>
+  <%= f.date_select :last_practiced, {include_blank: true} %><br><br>
+  <%= f.label :scheduled_practice %>
+  <%= f.date_select :scheduled_practice, {include_blank: true} %><br><br>
+
+  <%= f.label :description %><br>
+  <%= f.text_area :description %><br><br>
+
+  <%= f.submit "Save Lick" %>
+<% end %>

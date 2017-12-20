@@ -1,6 +1,7 @@
 class LicksController < ApplicationController
   before_action :authenticate_owner!
   before_action :set_user
+  before_action :tonalities_for_form, only: [:new, :edit]
 
   def index
     @user = current_user
@@ -9,12 +10,10 @@ class LicksController < ApplicationController
 
   def new
     @lick = Lick.new
-    2.times{@lick.tonalities.build}
   end
 
   def create
     @lick = @user.licks.create(clean_lick_params(lick_params))
-    binding.pry
     if @lick.valid?
       redirect_to user_lick_url(@user, @lick)
     else
@@ -24,6 +23,15 @@ class LicksController < ApplicationController
 
   def show
     binding.pry
+  end
+
+  def edit
+    if @lick = Lick.find_by(id: params[:id])
+      render :edit
+    else
+      flash[:message] = "Hmm, it doesn't seem like you have a lick like that yet."
+      redirect_to user_licks_url(@user)
+    end
   end
 
   private
@@ -44,5 +52,9 @@ class LicksController < ApplicationController
         v.blank?
       end
     end
+  end
+
+  def tonalities_for_form
+    @tonalities = [Tonality.new, Tonality.new]
   end
 end
