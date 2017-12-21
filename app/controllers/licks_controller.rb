@@ -1,7 +1,7 @@
 class LicksController < ApplicationController
   before_action :authenticate_owner!
   before_action :set_user
-  before_action :tonalities_for_form, only: [:new, :edit]
+  before_action :tonalities_for_form, only: [:new, :edit, :create]
 
   def index
     @user = current_user
@@ -14,7 +14,6 @@ class LicksController < ApplicationController
 
   def create
     @lick = @user.licks.create(clean_lick_params(lick_params))
-    binding.pry
     if @lick.valid?
       redirect_to user_lick_url(@user, @lick)
     else
@@ -30,13 +29,20 @@ class LicksController < ApplicationController
     if @lick = Lick.find_by(id: params[:id])
       render :edit
     else
-      flash[:message] = "Hmm, it doesn't seem like you have a lick like that yet."
+      flash[:message] = "Hmm, it doesn't seem that you have a lick like that yet."
       redirect_to user_licks_url(@user)
     end
   end
 
   def update
-    binding.pry
+    if @lick = Lick.find_by(id: params[:id])
+      binding.pry
+      @lick.update(clean_lick_params(lick_params))
+      binding.pry # make sure nil values have been entered correctly
+      if condition
+
+      end
+    end
   end
 
   private
