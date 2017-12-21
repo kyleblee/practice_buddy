@@ -5,7 +5,7 @@ class User < ApplicationRecord
   has_many :artist_users
   has_many :backing_track_users
   has_many :artists, through: :artist_users
-  has_many :backing_tracks, through: :backing_track_users
+  has_many :backing_tracks
 
   has_secure_password
 
