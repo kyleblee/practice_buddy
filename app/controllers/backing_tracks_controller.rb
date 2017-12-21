@@ -1,11 +1,15 @@
 class BackingTracksController < ApplicationController
   before_action :authenticate_user!, only: [:show, :new, :create]
   before_action :authenticate_owner!, only: [:update, :edit, :delete]
-  before_action :set_backing_track_user, only: [:show, :new, :create, :edit, :update]
+  before_action :set_backing_track_user, only: [:show, :new, :create, :edit, :update, :index]
   before_action :set_backing_track, only: [:show, :edit]
 
   def new
     @backing_track = BackingTrack.new
+  end
+
+  def index
+    @user = current_user if @user.nil?
   end
 
   def show
