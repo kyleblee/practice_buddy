@@ -36,12 +36,14 @@ class LicksController < ApplicationController
 
   def update
     if @lick = Lick.find_by(id: params[:id])
-      binding.pry
-      @lick.update(clean_lick_params(lick_params))
-      binding.pry # make sure nil values have been entered correctly
-      if condition
-
+      if @lick.update(lick_params)
+        redirect_to user_lick_url(@user, @lick)
+      else
+        render :edit
       end
+    else
+      flash[:message] = "Hmm, we can't seem to find that lick."
+      redirect_to user_licks_url(@user)
     end
   end
 
