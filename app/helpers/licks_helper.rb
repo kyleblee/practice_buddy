@@ -43,12 +43,4 @@ module LicksHelper
       "(no practice scheduled)"
     end
   end
-
-  def lick_url_and_method(lick, user)
-    if lick.id
-      {url: user_lick_url(user, lick), method: 'patch'}
-    else
-      {url: user_licks_url(@user)}
-    end
-  end
 end

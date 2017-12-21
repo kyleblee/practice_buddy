@@ -13,6 +13,8 @@ class Lick < ApplicationRecord
 
   before_validation :nil_if_blank
 
+  include CustomSetters::InstanceMethods
+
   NULL_ATTRS = %w( name bpm current_key description link performance_rating )
 
   SORT_OPTIONS = [
@@ -62,15 +64,6 @@ class Lick < ApplicationRecord
       end
     end
     cleaned_attr
-  end
-
-  def new_artist=(artist_attr)
-    if artist_attr[:name].blank?
-      self.artist_id ||= nil
-    else
-      artist = Artist.find_or_create_by(artist_attr)
-      artist.licks << self
-    end
   end
 
   def self.grouped_options(user)

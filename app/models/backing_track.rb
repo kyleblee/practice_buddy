@@ -10,4 +10,14 @@ class BackingTrack < ApplicationRecord
 
   validates :name, presence: true
   validates :link, presence: true
+
+  before_validation :nil_if_blank
+
+  include CustomSetters::InstanceMethods
+
+  NULL_ATTRS = %w( name bpm key description link )
+
+  def nil_if_blank
+    NULL_ATTRS.each {|attr| self[attr] = nil if self[attr].blank?}
+  end
 end

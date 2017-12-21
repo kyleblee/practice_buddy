@@ -19,4 +19,20 @@ module ApplicationHelper
       f.submit "Create #{object.class.name.underscore.humanize.titleize}"
     end
   end
+
+  def url_and_method(object, user)
+    if object.id
+      if object.class.name == "Lick"
+        {url: user_lick_url(user, object), method: 'patch'}
+      else
+        {url: user_backing_track_url(user, object), method: 'patch'}
+      end
+    else
+      if object.class.name == "Lick"
+        {url: user_licks_url(user)}
+      else
+        {url: user_backing_tracks_url(user)}
+      end
+    end
+  end
 end
