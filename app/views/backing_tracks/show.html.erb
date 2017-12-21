@@ -1,0 +1,10 @@
+<h2><%= @backing_track.name %><%= artist_name(@backing_track) %></h2>
+
+<% if @backing_track.bpm %><p><strong>BPM:</strong> <%= @backing_track.bpm %> bpm</p><% end %>
+<% if @backing_track.last_practiced %><p><strong>Last Practiced:</strong> <%= format_date_for_show(@backing_track.last_practiced) %></p><% end %>
+<% if @backing_track.key %><p><strong>Key:</strong> <%= @backing_track.key %></p><% end %>
+<% if @backing_track.description %><p><strong>Description:</strong> <%= @backing_track.description %></p><% end %>
+<% if @backing_track.link %><p><strong>Link:</strong> <a href="<%= @backing_track.link %>" target="_blank"><%= @backing_track.link %></a></p><% end %>
+<% if @backing_track.genre_id %><p><strong>Genre:</strong> <%= @backing_track.genre.name %></p><% end %>
+<% if @backing_track.created_at %><p><strong>Created On:</strong> <%= format_date_for_show(@backing_track.created_at) %></p><% end %>
+<% if @backing_track.user_id %><p><strong>Created By:</strong> <%= @backing_track.user.name %></p><% end %>

@@ -1,4 +1,5 @@
 module LicksHelper
+
   def render_sorted_view(user, licks, params)
     if params[:sort] == "Tonality" || params[:sort] == "Artist"
       render partial: "sort_with_headers", locals: {user: user, licks: licks}
@@ -41,18 +42,6 @@ module LicksHelper
     else
       "(no practice scheduled)"
     end
-  end
-
-  def format_date_for_show(date)
-    if date
-      date.strftime("%b %e, %Y")
-    else
-      "no date is currently set"
-    end
-  end
-
-  def artist_name(lick)
-    " - #{lick.artist.name}" if lick.artist
   end
 
   def lick_url_and_method(lick, user)
