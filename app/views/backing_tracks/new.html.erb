@@ -1,25 +1,2 @@
 <h1>New Backing Track</h1>
-<%= form_for @backing_track, url_and_method(@backing_track, @user) do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %><br>
-  <%= f.label :link %>
-  <%= f.text_field :link %><br>
-  <%= f.label :bpm %>
-  <%= f.number_field :bpm %><br>
-  <%= f.label :key %>
-  <%= f.text_field :key %><br>
-  <%= f.label :description %>
-  <%= f.text_area :description %><br>
-  <%= f.label :last_practiced %>
-  <%= f.date_select :last_practiced, {include_blank: true} %><br><br>
-
-  <%= f.label "Select an existing artist for this backing track:" %>
-  <%= f.collection_select :artist_id, Artist.all, :id, :name, {include_blank: true} %><br>
-  <%= f.label "Or, create a new artist:" %>
-  <%= f.fields_for "new_artist", @backing_track.build_artist do |artist_fields| %>
-    <%= artist_fields.text_field :name %>
-  <% end %><br><br>
-
-  <%= submit_button(f, @backing_track) %>
-
-<% end %>
+<%= render 'form' %>
