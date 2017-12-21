@@ -11,4 +11,12 @@ module ApplicationHelper
   def artist_name(lick_or_backing_track)
     " - #{lick_or_backing_track.artist.name}" if lick_or_backing_track.artist
   end
+
+  def submit_button(f, object)
+    if object.id
+      f.submit "Update #{object.class.name.underscore.humanize.titleize}"
+    else
+      f.submit "Create #{object.class.name.underscore.humanize.titleize}"
+    end
+  end
 end

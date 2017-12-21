@@ -12,6 +12,10 @@ class BackingTracksController < ApplicationController
 
   end
 
+  def create
+    # user should be set automatically
+  end
+
   private
 
   def set_backing_track

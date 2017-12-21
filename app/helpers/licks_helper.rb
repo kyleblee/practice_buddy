@@ -51,12 +51,4 @@ module LicksHelper
       {url: user_licks_url(@user)}
     end
   end
-
-  def lick_submit_button(f, lick, user)
-    if lick.id
-      f.submit "Update Lick"
-    else
-      f.submit "Create Lick"
-    end
-  end
 end
