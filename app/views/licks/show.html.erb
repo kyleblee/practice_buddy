@@ -9,4 +9,6 @@
 <h4>Backing Tracks</h4>
 <%= render partial: 'lick_backing_tracks', locals: {lick: @lick} %>
 
-<%= button_to "Edit Lick", edit_user_lick_path(@user, @lick), method: 'get' %>
+<%= button_to "Edit Lick", edit_user_lick_path(@user, @lick), method: 'get' %><br>
+
+<%= button_to "Delete Lick", user_lick_path(@user, @lick), method: 'delete'%>

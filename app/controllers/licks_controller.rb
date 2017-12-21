@@ -47,6 +47,16 @@ class LicksController < ApplicationController
     end
   end
 
+  def destroy
+    if @lick = Lick.find_by(id: params[:id])
+      @lick.destroy
+      flash[:message] = "Lick deleted!"
+    else
+      flash[:message] = "Hmm, we can't seem to find that lick."
+    end
+    redirect_to user_licks_url(@user)
+  end
+
   private
 
   def lick_params
