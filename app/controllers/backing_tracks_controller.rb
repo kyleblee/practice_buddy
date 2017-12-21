@@ -1,7 +1,7 @@
 class BackingTracksController < ApplicationController
   before_action :authenticate_user!, only: [:show, :new, :create]
   before_action :authenticate_owner!, only: [:update, :edit, :delete]
-  before_action :set_backing_track_user, only: [:show, :new, :create, :edit]
+  before_action :set_backing_track_user, only: [:show, :new, :create, :edit, :update]
   before_action :set_backing_track, only: [:show, :edit]
 
   def new
@@ -23,6 +23,19 @@ class BackingTracksController < ApplicationController
 
   def edit
 
+  end
+
+  def update
+    if @backing_track = BackingTrack.find_by(id: params[:id])
+      if @backing_track.update(backing_track_params)
+        redirect_to user_backing_track_url(@user, @backing_track)
+      else
+        render :edit
+      end
+    else
+      flash[:message] = "Hmm, we can't seem to find that backing track."
+      redirect_to user_backing_tracks_url(@user)
+    end
   end
 
   private
