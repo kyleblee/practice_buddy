@@ -1,10 +1,10 @@
-<h2>My Backing Tracks</h2>
+<h2><%= backing_track_header(@backing_tracks) %></h2>
 
 <% @backing_tracks.each do |bt| %>
-  
+  <li><%= link_to bt.name, user_backing_track_path(@user, bt) %><%= artist_name(bt) %></li>
+<% end %><br>
 
+<% if logged_in? %>
+  <%= button_to "My Backing Tracks", user_backing_tracks_path(@user), method: 'get' %><br>
+  <%= button_to "Add a new backing track", new_user_backing_track_path(@user), method: 'get' %>
 <% end %>
-
-<%= button_to "Add a new backing track", new_user_backing_track_path(@user), method: 'get' %><br>
-
-<%= button_to "My Backing Tracks", user_backing_tracks_path(@user), method: 'get' %>
