@@ -13,7 +13,7 @@ class LicksController < ApplicationController
   end
 
   def create
-    @lick = @user.licks.create(clean_lick_params(lick_params))
+    @lick = @user.licks.create(lick_params)
     if @lick.valid?
       redirect_to user_lick_url(@user, @lick)
     else
@@ -53,17 +53,6 @@ class LicksController < ApplicationController
       "last_practiced(1i)", "last_practiced(2i)", "last_practiced(3i)", "scheduled_practice(1i)",
       "scheduled_practice(2i)", "scheduled_practice(3i)", :description, {backing_track_ids: []},
       {new_backing_track: [:name, :link]})
-  end
-
-  def clean_lick_params(lick_params)
-    lick_params.reject do |k,v|
-      if k == "tonality_ids"
-        v.delete("")
-        v.empty?
-      else
-        v.blank?
-      end
-    end
   end
 
   def tonalities_for_form

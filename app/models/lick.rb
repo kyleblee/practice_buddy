@@ -11,12 +11,20 @@ class Lick < ApplicationRecord
   validates :name, presence: true
   validates :performance_rating, :inclusion => { :in => 1..5 }, allow_nil: true
 
+  before_validation :nil_if_blank
+
+  NULL_ATTRS = %w( name bpm current_key description link performance_rating )
+
   SORT_OPTIONS = [
     "Tonality",
     "Artist",
     "Date Last Practiced",
     "Scheduled Practice Date"
   ]
+
+  def nil_if_blank
+    NULL_ATTRS.each {|attr| self[attr] = nil if self[attr].blank?}
+  end
 
   def new_tonalities=(tonalities_attr)
     unless new_tonalities_blank?(tonalities_attr)
