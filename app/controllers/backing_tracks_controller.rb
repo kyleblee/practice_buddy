@@ -1,7 +1,7 @@
 class BackingTracksController < ApplicationController
   before_action :authenticate_user!, only: [:show, :new, :create]
   before_action :authenticate_owner!, only: [:update, :edit, :delete]
-  before_action :set_backing_track_user, only: [:show, :new, :create, :edit, :update, :index]
+  before_action :set_backing_track_user
   before_action :set_backing_track, only: [:show, :edit]
 
   def new
@@ -9,7 +9,12 @@ class BackingTracksController < ApplicationController
   end
 
   def index
-    @user = current_user if @user.nil?
+    if @user
+      @backing_tracks = @user.backing_tracks
+    else
+      @user = current_user if @user.nil?
+      @backing_tracks = BackingTrack.all
+    end
   end
 
   def show
@@ -40,6 +45,16 @@ class BackingTracksController < ApplicationController
       flash[:message] = "Hmm, we can't seem to find that backing track."
       redirect_to user_backing_tracks_url(@user)
     end
+  end
+
+  def destroy
+    if @backing_track = BackingTrack.find_by(id: params[:id])
+      @backing_track.destroy
+      flash[:message] = "Backing Track deleted!"
+    else
+      flash[:message] = "Hmm, we can't seem to find that backing track."
+    end
+    redirect_to user_backing_tracks_url(@user)
   end
 
   private
