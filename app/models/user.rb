@@ -59,12 +59,4 @@ class User < ApplicationRecord
   def location_name
     self.location.try(:name)
   end
-
-  def self.owner?(current_user, params)
-    if params[:user_id]
-      current_user == User.find_by(id: params[:user_id])
-    else
-      current_user == User.find_by(id: params[:id])
-    end
-  end
 end

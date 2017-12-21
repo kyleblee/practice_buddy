@@ -9,8 +9,9 @@
 <% if @backing_track.created_at %><p><strong>Created On:</strong> <%= format_date_for_show(@backing_track.created_at) %></p><% end %>
 <% if @backing_track.user_id %><p><strong>Created By:</strong> <%= @backing_track.user.name %></p><% end %>
 
-<%= button_to "Edit Backing Track", edit_user_backing_track_path(@user, @backing_track), method: 'get' %><br>
+<% if owner?(@backing_track) %>
+  <%= button_to "Edit Backing Track", edit_user_backing_track_path(@backing_track.user, @backing_track), method: 'get' %><br>
+  <%= button_to "Delete Backing Track", user_backing_track_path(@backing_track.user, @backing_track), method: 'delete' %><br>
+<% end %>
 
-<%= button_to "Delete Backing Track", user_backing_track_path(@user, @backing_track), method: 'delete' %><br>
-
-<%= button_to "<< #{@backing_track.user.name}'s backing tracks", user_backing_tracks_path(@backing_track.user), method: 'get' %>
+<%= back_to_backing_tracks(@backing_track) %>

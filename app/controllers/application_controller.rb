@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  helper_method :logged_in?, :current_user
+  helper_method :logged_in?, :current_user, :owner?
 
   def logged_in?
     !!current_user
@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_owner!
-    unless logged_in? && User.owner?(current_user, params)
+    unless logged_in? && current_user == User.find_by(id: params[:user_id])
       redirect_to home_path
     end
   end
@@ -30,5 +30,9 @@ class ApplicationController < ActionController::Base
     else
       @user = User.find_by(id: params[:id])
     end
+  end
+
+  def owner?(object)
+    current_user == object.user
   end
 end
