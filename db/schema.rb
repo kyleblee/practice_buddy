@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171218025450) do
+ActiveRecord::Schema.define(version: 20171221022730) do
 
   create_table "artist_genres", force: :cascade do |t|
     t.integer "artist_id"
@@ -95,7 +95,6 @@ ActiveRecord::Schema.define(version: 20171218025450) do
     t.text "description"
     t.string "link"
     t.integer "performance_rating"
-    t.datetime "date_created"
     t.integer "artist_id"
     t.integer "user_id"
     t.datetime "created_at", null: false

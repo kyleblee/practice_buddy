@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   resources :sessions, only: [:create]
 
+  resources :backing_tracks
+
   resources :users, only: [:index, :show, :edit, :update, :create] do
     resources :licks
     resources :tunes
