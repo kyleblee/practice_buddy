@@ -4,6 +4,10 @@ class BackingTracksController < ApplicationController
   before_action :set_user, only: [:show]
   before_action :set_backing_track, only: [:show]
 
+  def new
+    @backing_track = BackingTrack.new
+  end
+
   def show
 
   end
