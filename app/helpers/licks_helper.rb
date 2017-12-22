@@ -1,7 +1,9 @@
 module LicksHelper
 
   def render_sorted_view(user, licks, params)
-    if params[:sort] == "Tonality" || params[:sort] == "Artist"
+    if licks.empty?
+      content_tag(:p, "You haven't created any licks yet!")
+    elsif params[:sort] == "Tonality" || params[:sort] == "Artist"
       render partial: "sort_with_headers", locals: {user: user, licks: licks}
     elsif params[:sort] == "Date Last Practiced"
       render partial: "sort_without_headers", locals: {user: user, licks: licks, extra_info_method: :date_last_practiced}
