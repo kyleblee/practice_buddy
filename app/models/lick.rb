@@ -28,6 +28,14 @@ class Lick < ApplicationRecord
     NULL_ATTRS.each {|attr| self[attr] = nil if self[attr].blank?}
   end
 
+  def self.licks_of_the_day(user)
+    unless user.licks.empty?
+      user.licks.select do |l|
+        DateTime.now.strftime("%m/%d/%Y") == l.scheduled_practice.try(:strftime, "%m/%d/%Y")
+      end
+    end
+  end
+
   def new_tonalities=(tonalities_attr)
     unless new_tonalities_blank?(tonalities_attr)
       tonalities_attr.each do |tonality_attr|

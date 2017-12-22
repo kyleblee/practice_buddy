@@ -22,7 +22,12 @@ class SessionsController < ApplicationController
   end
 
   def index
-
+    @user = current_user
+    @licks_of_the_day = Lick.licks_of_the_day(@user)
+    @overdue = Lick.overdue_licks(@user)
+    binding.pry
+    @sloppiest = Lick.sloppiest_licks(@user)
+    @newest_bt = BackingTrack.newest_backing_tracks
   end
 
   def destroy

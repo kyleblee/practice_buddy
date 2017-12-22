@@ -1,3 +1,23 @@
+<h1>Welcome, <%= @user.name %>!</h1>
+
 <%= render 'layouts/messages' %>
 
-<h4>Congrats, you've made it to the home view for a signed in User.</h4>
+<h4>Licks of the Day</h4>
+<ul>
+  <li>all the licks that have been scheduled for that day</li>
+</ul>
+
+<h4>Overdue Licks</h4>
+<ul>
+  <li>all the licks that were scheduled for a day that has already past (limit 5)</li>
+</ul>
+
+<h4>Sloppiest Licks</h4>
+<ul>
+  <li>all the licks that have been scheduled for that day (limit 5)</li>
+</ul>
+
+<h4>New Backing Tracks</h4>
+<ul>
+  <li>just lists the 5 most recently added backing tracks (not just the ones by this user)</li>
+</ul>
