@@ -28,18 +28,37 @@ class Lick < ApplicationRecord
     NULL_ATTRS.each {|attr| self[attr] = nil if self[attr].blank?}
   end
 
-  def self.licks_of_the_day(user)
+  def self.homepage_lick_info(user, section)
     unless user.licks.empty?
-      user.licks.select do |l|
-        DateTime.now.strftime("%m/%d/%Y") == l.scheduled_practice.try(:strftime, "%m/%d/%Y")
+      case section
+      when "licks_of_the_day"
+        self.licks_of_the_day(user)
+      when "overdue"
+        self.overdue_licks(user)
+      when "sloppiest"
+        self.sloppiest_licks(user)
       end
     end
   end
 
-  def self.overdue_licks(user)
-    unless user.licks.empty?
-      user.licks.select{|l| DateTime.now > l.scheduled_practice.end_of_day}
+  def self.licks_of_the_day(user)
+    user.licks.select do |l|
+      DateTime.now.strftime("%m/%d/%Y") == l.scheduled_practice.try(:strftime, "%m/%d/%Y")
     end
+  end
+
+  def self.overdue_licks(user)
+    user.licks.select do |l|
+      if sch_date = l.scheduled_practice.try(:end_of_day)
+        DateTime.now > sch_date
+      else
+        false
+      end
+    end
+  end
+
+  def self.sloppiest_licks(user)
+    Lick.all.where("user_id = ? AND performance_rating IS NOT NULL AND performance_rating <= 3", user.id).order("performance_rating ASC").limit(5)
   end
 
   def new_tonalities=(tonalities_attr)
