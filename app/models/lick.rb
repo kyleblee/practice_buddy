@@ -150,17 +150,23 @@ class Lick < ApplicationRecord
   end
 
   def self.date_last_practiced_sort(collection)
-    binding.pry # need to fix this sort logic (using #sort_by(&:"last_practiced") instead of #order)
-    with_dates_count = collection.select{|l| l.last_practiced}.count
-    if with_dates_count == 0
-      collection
-    else
-      ordered_collection = collection.order("last_practiced DESC")
-    end
+    dated_sort(collection, "last_practiced")
   end
 
   def self.scheduled_practice_date_sort(collection)
-    binding.pry # need to fix this sort logic (using #sort_by(&:"last_practiced") instead of #order)
-    ordered_collection = collection.order("scheduled_practice DESC")
+    dated_sort(collection, "scheduled_practice")
+  end
+
+  def self.dated_sort(collection, attribute)
+    with_dates = collection.select{|l| l.send("#{attribute}")}
+    without_dates = collection.select{|l| l.send("#{attribute}").nil?}
+    if with_dates.count == 0
+      collection
+    else
+      sorted_collection = with_dates.sort_by(&:"#{attribute}").reverse
+      sorted_collection << without_dates
+      sorted_collection.flatten
+    end
+
   end
 end
