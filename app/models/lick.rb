@@ -36,6 +36,12 @@ class Lick < ApplicationRecord
     end
   end
 
+  def self.overdue_licks(user)
+    unless user.licks.empty?
+      user.licks.select{|l| DateTime.now > l.scheduled_practice.end_of_day}
+    end
+  end
+
   def new_tonalities=(tonalities_attr)
     unless new_tonalities_blank?(tonalities_attr)
       tonalities_attr.each do |tonality_attr|
