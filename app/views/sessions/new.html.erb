@@ -1,6 +1,7 @@
 <h1>Sign In</h1>
 
 <%= render partial: 'layouts/errors', locals: {object: @user} %>
+<%= render 'layouts/messages' %>
 
 <%= form_for @user, url: sessions_url, method: 'post' do |f| %>
   <%= f.label :email %>

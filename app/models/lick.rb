@@ -150,10 +150,17 @@ class Lick < ApplicationRecord
   end
 
   def self.date_last_practiced_sort(collection)
-    ordered_collection = collection.order("last_practiced DESC")
+    binding.pry # need to fix this sort logic (using #sort_by(&:"last_practiced") instead of #order)
+    with_dates_count = collection.select{|l| l.last_practiced}.count
+    if with_dates_count == 0
+      collection
+    else
+      ordered_collection = collection.order("last_practiced DESC")
+    end
   end
 
   def self.scheduled_practice_date_sort(collection)
+    binding.pry # need to fix this sort logic (using #sort_by(&:"last_practiced") instead of #order)
     ordered_collection = collection.order("scheduled_practice DESC")
   end
 end
