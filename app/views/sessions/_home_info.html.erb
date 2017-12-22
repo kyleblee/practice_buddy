@@ -1,0 +1,9 @@
+<ul>
+  <% if collection.empty? %>
+    <li>You're in good shape!</li>
+  <% else %>
+    <% collection.each do |o| %>
+      <li><%= home_list_link(user, o) %></li>
+    <% end %>
+  <% end %>
+</ul>
