@@ -24,6 +24,7 @@ class BackingTracksController < ApplicationController
   def create
     @backing_track = @user.backing_tracks.create(backing_track_params)
     if @backing_track.valid?
+      flash[:message] = "Backing Track created!"
       redirect_to user_backing_track_url(@user, @backing_track)
     else
       render :new
@@ -37,6 +38,7 @@ class BackingTracksController < ApplicationController
   def update
     if @backing_track = BackingTrack.find_by(id: params[:id])
       if @backing_track.update(backing_track_params)
+        flash[:message] = "Backing Track updated!"
         redirect_to user_backing_track_url(@user, @backing_track)
       else
         render :edit

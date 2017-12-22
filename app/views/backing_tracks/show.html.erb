@@ -1,5 +1,7 @@
 <h2><%= @backing_track.name %><%= artist_name(@backing_track) %></h2>
 
+<%= render 'layouts/messages' %>
+
 <% if @backing_track.bpm %><p><strong>BPM:</strong> <%= @backing_track.bpm %> bpm</p><% end %>
 <% if @backing_track.last_practiced %><p><strong>Last Practiced:</strong> <%= format_date_for_show(@backing_track.last_practiced) %></p><% end %>
 <% if @backing_track.key %><p><strong>Key:</strong> <%= @backing_track.key %></p><% end %>

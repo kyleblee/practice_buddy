@@ -15,6 +15,7 @@ class LicksController < ApplicationController
   def create
     @lick = @user.licks.create(lick_params)
     if @lick.valid?
+      flash[:message] = "New lick created!"
       redirect_to user_lick_url(@user, @lick)
     else
       render :new
@@ -23,27 +24,27 @@ class LicksController < ApplicationController
 
   def show
     @lick = Lick.find_by(id: params[:id])
+    cant_find_lick_redirect if !@lick
   end
 
   def edit
     if @lick = Lick.find_by(id: params[:id])
       render :edit
     else
-      flash[:message] = "Hmm, it doesn't seem that you have a lick like that yet."
-      redirect_to user_licks_url(@user)
+      cant_find_lick_redirect
     end
   end
 
   def update
     if @lick = Lick.find_by(id: params[:id])
       if @lick.update(lick_params)
+        flash[:message] = "Lick updated!"
         redirect_to user_lick_url(@user, @lick)
       else
         render :edit
       end
     else
-      flash[:message] = "Hmm, we can't seem to find that lick."
-      redirect_to user_licks_url(@user)
+      cant_find_lick_redirect
     end
   end
 
@@ -69,5 +70,10 @@ class LicksController < ApplicationController
 
   def tonalities_for_form
     @tonalities = [Tonality.new, Tonality.new]
+  end
+
+  def cant_find_lick_redirect
+    flash[:message] = "Hmm, we can't seem to find that lick."
+    redirect_to user_licks_url(@user)
   end
 end

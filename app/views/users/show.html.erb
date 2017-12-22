@@ -1,5 +1,9 @@
 <h2><%= @user.name %><% if @user.admin %> (admin)<% end %></h2>
+
+<%= render 'layouts/messages' %>
+
 <% if @user.image %><img src="<%= @user.image %>"><% end %>
+
 <h3>Information</h3>
 <ul>
   <% @user.attributes.each do |key, value| %>

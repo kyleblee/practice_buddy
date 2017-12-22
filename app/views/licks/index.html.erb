@@ -1,5 +1,7 @@
 <h2>My Licks</h2>
 
+<%= render 'layouts/messages' %>
+
 <%= render_sorted_view(@user, @licks, params) %><br>
 
 <%= form_tag(user_licks_path(@user), method: 'get') do %>

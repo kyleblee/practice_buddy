@@ -1,5 +1,7 @@
 <h2><%= @lick.name %><%= artist_name(@lick) %></h2>
 
+<%= render 'layouts/messages' %>
+
 <h4>Basic Information</h4>
 <%= render partial: 'basic_info', locals: {lick: @lick} %>
 

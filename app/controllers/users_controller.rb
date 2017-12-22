@@ -27,11 +27,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    if @user
-      render :show
-    else
-      render :not_found
-    end
+    render :not_found if !@user
   end
 
   def edit
@@ -40,6 +36,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.update(user_params)
+      flash[:message] = "Information updated!"
       redirect_to @user
     else
       render :edit

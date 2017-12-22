@@ -1,5 +1,7 @@
 <h2><%= backing_track_header(@backing_tracks) %></h2>
 
+<%= render 'layouts/messages' %>
+
 <% @backing_tracks.each do |bt| %>
   <li><%= link_to bt.name, backing_track_path(bt) %><%= artist_name(bt) %></li>
 <% end %><br>
