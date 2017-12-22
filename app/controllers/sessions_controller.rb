@@ -27,7 +27,6 @@ class SessionsController < ApplicationController
     @overdue = Lick.overdue_licks(@user)
     @sloppiest = Lick.sloppiest_licks(@user)
     @newest_bt = BackingTrack.newest_backing_tracks
-    binding.pry
   end
 
   def destroy

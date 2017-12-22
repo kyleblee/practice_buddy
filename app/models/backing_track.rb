@@ -20,4 +20,8 @@ class BackingTrack < ApplicationRecord
   def nil_if_blank
     NULL_ATTRS.each {|attr| self[attr] = nil if self[attr].blank?}
   end
+
+  def self.newest_backing_tracks
+    BackingTrack.all.order("created_at DESC").limit(5)
+  end
 end
