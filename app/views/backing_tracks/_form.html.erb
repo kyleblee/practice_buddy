@@ -1,3 +1,5 @@
+<%= render partial: 'layouts/errors', locals: {object: @backing_track} %>
+
 <%= form_for @backing_track, url_and_method(@backing_track, @user) do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %><br>

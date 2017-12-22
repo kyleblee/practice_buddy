@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true
   validates :email, uniqueness: true
-  validates_email_format_of :email, message: "Please enter a valid email address."
+  validates_email_format_of :email, message: "isn't valid."
 
   validates :name, presence: true
 

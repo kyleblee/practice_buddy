@@ -1,7 +1,7 @@
 class LicksController < ApplicationController
   before_action :authenticate_owner!
   before_action :set_user
-  before_action :tonalities_for_form, only: [:new, :edit, :create]
+  before_action :tonalities_for_form, only: [:new, :edit, :create, :update]
 
   def index
     @user = current_user

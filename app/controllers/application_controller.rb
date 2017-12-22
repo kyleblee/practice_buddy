@@ -15,8 +15,14 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate_owner!
-    unless logged_in? && current_user == User.find_by(id: params[:user_id])
-      redirect_to home_path
+    # Keep an eye on this method if you use it on any routes that aren't nested
+    # (other than User routes). It uses :id if :user_id can't be
+    # found, which isn't currently a problem but could become one and would require
+    # additional logic or a separate method.
+    if params[:user_id]
+      redirect_to home_path unless current_user == User.find_by(id: params[:user_id])
+    else
+      redirect_to home_path unless current_user == User.find_by(id: params[:id])
     end
   end
 

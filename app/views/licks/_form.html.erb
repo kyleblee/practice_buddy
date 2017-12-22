@@ -1,3 +1,5 @@
+<%= render partial: 'layouts/errors', locals: {object: @lick} %>
+
 <%= form_for @lick, url_and_method(@lick, @user) do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %><br><br>
