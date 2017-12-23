@@ -77,6 +77,8 @@ Specs:
   - /users/:user_id/licks/:id/edit
   - /users/:id/backing_tracks/new
   - /users/:user_id/backing_tracks/:id/edit
+  - /users/sign_up
+  - /users/sign_in
 
 Confirm:
 - [x] The application is pretty DRY
