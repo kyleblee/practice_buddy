@@ -2,24 +2,84 @@
 
 Specs:
 - [x] Using Ruby on Rails for the project
-- [ ] Include at least one has_many relationship (x has_many y e.g. User has_many Recipes)
-  - checking indented bullet points
-- [ ] Include at least one belongs_to relationship (x belongs_to y e.g. Post belongs_to User)
-- [ ] Include at least one has_many through relationship (x has_many y through z e.g. Recipe has_many Items through Ingredients)
-- [ ] The "through" part of the has_many through includes at least one user submittable attribute (attribute_name e.g. ingredients.quantity)
-- [ ] Include reasonable validations for simple model objects (list of model objects with validations e.g. User, Recipe, Ingredient, Item)
-- [ ] Include a class level ActiveRecord scope method (model object & class method name and URL to see the working feature e.g. User.most_recipes URL: /users/most_recipes)
-- [ ] Include a nested form writing to an associated model using a custom attribute writer (form URL, model name e.g. /recipe/new, Item)
-- [ ] Include signup (how e.g. Devise)
-- [ ] Include login (how e.g. Devise)
-- [ ] Include logout (how e.g. Devise)
-- [ ] Include third party signup/login (how e.g. Devise/OmniAuth)
-- [ ] Include nested resource show or index (URL e.g. users/2/recipes)
-- [ ] Include nested resource "new" form (URL e.g. recipes/1/ingredients)
-- [ ] Include form display of validation errors (form URL e.g. /recipes/new)
+- [x] Include at least one has_many relationship (x has_many y e.g. User has_many Recipes)
+  - User has_many Licks
+  - User has_many BackingTracks
+  - Artist has_many Licks
+  - Artist has_many BackingTracks
+- [x] Include at least one belongs_to relationship (x belongs_to y e.g. Post belongs_to User)
+  - Lick belongs_to User
+  - Lick belongs_to Artist
+  - BackingTrack belongs_to User
+  - BackingTrack belongs_to Artist
+- [x] Include at least one has_many through relationship (x has_many y through z e.g. Recipe has_many Items through Ingredients)
+  - Tonality has_many Licks, through LickTonalities
+  - Tonality has_many BackingTracks, through BackingTrackTonalities
+  - Lick has_many Tonalities, through LickTonalities
+  - Lick has_many BackingTracks, through BackingTrackLicks
+  - BackingTrack has_many Tonalities, through BackingTrackTonalities
+  - BackingTrack has_many Licks, through BackingTrackLicks
+- [x] The "through" part of the has_many through includes at least one user submittable attribute (attribute_name e.g. ingredients.quantity)
+  - licks.last_practiced
+  - licks.performance_rating
+  - licks.current_key
+  - backing_tracks.link
+  - backing_tracks.description
+- [x] Include reasonable validations for simple model objects (list of model objects with validations e.g. User, Recipe, Ingredient, Item)
+  - User
+    - presence of email
+    - uniqueness of email
+    - format of email
+    - presence of name
+    - has a secure password
+  - Tonality
+    - presence of name
+    - uniqueness of name
+  - Lick
+    - presence of name
+    - range of performance_rating
+  - BackingTrack
+    - presence of name
+    - presence of link
+  - Artist
+    - presence of name
+    - uniqueness of name
+- [x] Include a class level ActiveRecord scope method (model object & class method name and URL to see the working feature e.g. User.most_recipes URL: /users/most_recipes)
+  - Lick
+    - Lick.licks_of_the_day URL: /home
+    - Lick.overdue_licks URL: /home
+    - Lick.sloppiest_licks URL: /home
+    - Lick.grouped_options URL: /users/:id/licks (in the filter select)
+    - Lick.filter_licks URL: /users/:id/licks
+  - BackingTrack
+    - BackingTrack.newest_backing_tracks URL: /home
+- [x] Include a nested form writing to an associated model using a custom attribute writer (form URL, model name e.g. /recipe/new, Item)
+  - /users/:id/licks/new, Artist
+  - /users/:id/licks/new, Tonalities
+  - /users/:id/licks/new, BackingTrack
+  - /users/:id/backing_tracks/new, Artist
+- [x] Include signup (how e.g. Devise)
+  - rolled my own with bcrypt, validates_email_format_of (gem) and custom validations
+- [x] Include login (how e.g. Devise)
+  - rolled my own with bcrypt, validates_email_format_of (gem) and custom validations
+- [x] Include logout (how e.g. Devise)
+  - rolled my own by removing :user_id from the session hash
+- [x] Include third party signup/login (how e.g. Devise/OmniAuth)
+  - Facebook OAuth signup/login via omniauth, omniauth-facebook, and dotenv-rails
+- [x] Include nested resource show or index (URL e.g. users/2/recipes)
+  - /users/:id/licks (with all CRUD actions)
+  - /users/:id/backing_tracks (with all CRUD actions)
+- [x] Include nested resource "new" form (URL e.g. recipes/1/ingredients)
+  - /users/:user_id/licks/new
+  - /users/:user_id/backing_tracks/new
+- [x] Include form display of validation errors (form URL e.g. /recipes/new)
+  - /users/:id/licks/new
+  - /users/:user_id/licks/:id/edit
+  - /users/:id/backing_tracks/new
+  - /users/:user_id/backing_tracks/:id/edit
 
 Confirm:
-- [ ] The application is pretty DRY
-- [ ] Limited logic in controllers
-- [ ] Views use helper methods if appropriate
-- [ ] Views use partials if appropriate
+- [x] The application is pretty DRY
+- [x] Limited logic in controllers
+- [x] Views use helper methods if appropriate
+- [x] Views use partials if appropriate
