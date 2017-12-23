@@ -1,24 +1,15 @@
-# README
+# PracticeBuddy
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Welcome to PracticeBuddy!
 
-Things you may want to cover:
+Part of becoming a better musician (well, at least for instrumentalists) is developing a musical vocabulary. This is done with years upon years of learning and internalizing musical phrases (licks, chops, whatever the current word is). However, remembering every phrase you have ever learned can be... a lot to keep track of. Well, not anymore.
 
-* Ruby version
+Let PracticeBuddy help you keep track of your "bag of licks," so you can focus on keeping past phrases fresh, digesting new ones, and becoming the best player you can be.
 
-* System dependencies
+### Contributors Guide
 
-* Configuration
+Bug reports and pull requests are welcome on GitHub at https://github.com/kyleblee/practice_buddy. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-* Database creation
+### License
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
