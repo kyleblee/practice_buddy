@@ -2,7 +2,7 @@
 
 Welcome to PracticeBuddy!
 
-Part of becoming a better musician (well, at least for instrumentalists) is developing a musical vocabulary. This is done with years upon years of learning and internalizing musical phrases (licks, chops, whatever the current word is). However, remembering every phrase you have ever learned can be... a lot to keep track of. Well, not anymore.
+Part of becoming a better musician (particularly for improvisers) is developing a musical vocabulary. This is done with years upon years of learning and internalizing musical phrases (licks, chops, whatever the current word is). However, remembering every phrase you have ever learned can be... a lot to keep track of. Well, not anymore.
 
 Let PracticeBuddy help you keep track of your "bag of licks," so you can focus on keeping past phrases fresh, digesting new ones, and becoming the best player you can be.
 
