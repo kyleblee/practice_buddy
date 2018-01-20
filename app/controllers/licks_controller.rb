@@ -6,6 +6,11 @@ class LicksController < ApplicationController
   def index
     @user = current_user
     @licks = Lick.filter_and_sort_licks(@user, params)
+
+    respond_to do |format|
+      format.html { render :index }
+      format.json { render json: @licks }
+    end
   end
 
   def new
