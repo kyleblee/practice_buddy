@@ -16,5 +16,7 @@ Rails.application.routes.draw do
     resources :backing_tracks
   end
 
+  resources :location
+
   resources :backing_tracks, only: [:show, :index]
 end

@@ -28,19 +28,6 @@ class Lick < ApplicationRecord
     NULL_ATTRS.each {|attr| self[attr] = nil if self[attr].blank?}
   end
 
-  def self.homepage_lick_info(user, section)
-    unless user.licks.empty?
-      case section
-      when "licks_of_the_day"
-        self.licks_of_the_day(user)
-      when "overdue"
-        self.overdue_licks(user)
-      when "sloppiest"
-        self.sloppiest_licks(user)
-      end
-    end
-  end
-
   def self.licks_of_the_day(user)
     user.licks.select do |l|
       DateTime.now.strftime("%m/%d/%Y") == l.scheduled_practice.try(:strftime, "%m/%d/%Y")
@@ -85,18 +72,6 @@ class Lick < ApplicationRecord
 
   def backing_track_blank?(attributes)
     attributes["name"].blank? || attributes["link"].blank?
-  end
-
-  def clean_backing_track_attr(backing_track_attr)
-    cleaned_attr = {}
-    backing_track_attr.each do |k,v|
-      if v.blank?
-        cleaned_attr[k] = nil
-      else
-        cleaned_attr[k] = v
-      end
-    end
-    cleaned_attr
   end
 
   def self.grouped_options(user)
