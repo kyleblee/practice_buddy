@@ -1,16 +1,18 @@
-$(function() {
-  Handlebars.registerHelper('tonalities', function(lick) {
-    if (lick.tonalities.length > 0) {
-      let tonalitiesList = "("
-      for (let tonality of lick.tonalities) {
-        tonalitiesList += `${tonality.name}, `
-      }
-      tonalitiesList = tonalitiesList.replace(/,\s*$/, ")")
-      return tonalitiesList;
-    };
-  })
+$(document).on('turbolinks:load', function() {
+  if ($('#licks').length > 0) {
+    Handlebars.registerHelper('tonalities', function(lick) {
+      if (lick.tonalities.length > 0) {
+        let tonalitiesList = "("
+        for (let tonality of lick.tonalities) {
+          tonalitiesList += `${tonality.name}, `
+        }
+        tonalitiesList = tonalitiesList.replace(/,\s*$/, ")")
+        return tonalitiesList;
+      };
+    })
 
-  renderLicks();
+    renderLicks();
+  }
 });
 
 
@@ -23,13 +25,12 @@ function renderLicks() {
     filter: $('select#filter')[0].value,
     sort: $('select#sort')[0].value
   }
-  $.getJSON(`/users/${userId}/licks`, filterAndSortParams, function(data){
-     const template = Handlebars.compile(document.getElementById('licks-template').innerHTML);
-     const licksHTML = template(data);
-     $('#licks').html(licksHTML);
-  });
+
+  $.getJSON(`/users/${userId}/licks`, filterAndSortParams, displayUnsortedLicks);
 }
 
-function filterAndSort() {
-
-}
+const displayUnsortedLicks = function(data) {
+  const template = Handlebars.compile(document.getElementById('unsorted-licks-template').innerHTML);
+  const licksHTML = template(data);
+  $('#licks').html(licksHTML);
+};

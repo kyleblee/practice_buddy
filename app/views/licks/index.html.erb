@@ -2,10 +2,9 @@
 
 <%= render 'layouts/messages' %>
 
-<div id="licks">
+<div id="licks"></div>
   <!-- Rendering licks via erb for initial index#licks requests -->
-  <%= render_sorted_view(@user, @licks, params) %><br>
-</div>
+  <!-- <%= render_sorted_view(@user, @licks, params) %><br> -->
 
 <%= form_tag(user_licks_path(@user), method: 'get') do %>
   <%= label_tag "Filter by:" %>
@@ -17,9 +16,7 @@
 
 <%= button_to "Add a new lick", new_user_lick_path(@user), method: 'get' %><br>
 
-<%= javascript_include_tag 'licks', 'data-turbolinks-track': 'reload' %>
-
-<script id="licks-template" type="text/x-handlebars-template">
+<script id="unsorted-licks-template" type="text/x-handlebars-template">
   <ul>
     {{#each this}}
       <li>
