@@ -12,7 +12,7 @@
 //
 //= require rails-ujs
 //= require turbolinks
-//= require licks
 //= require jquery3
 //= require jquery_ujs
+//= require licks
 //= require_tree .

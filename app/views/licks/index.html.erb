@@ -2,7 +2,9 @@
 
 <%= render 'layouts/messages' %>
 
-<%= render_sorted_view(@user, @licks, params) %><br>
+<!-- <%= render_sorted_view(@user, @licks, params) %><br> -->
+
+<div id="licks"></div>
 
 <%= form_tag(user_licks_path(@user), method: 'get') do %>
   <%= label_tag "Filter by:" %>
@@ -14,12 +16,11 @@
 
 <%= button_to "Add a new lick", new_user_lick_path(@user), method: 'get' %><br>
 
-<!-- Building out template for receiving licks through AJAX. Come back to this once you have
-      configured the JSON API response -->
-<!-- <script id="licks-template" type="text/x-handlebars-template">
+<script id="licks-template" type="text/x-handlebars-template">
   <ul>
     {{#each this}}
-      <li><hfref src="/licks/{{}}"></href></li>
+      <li>
+        <a href="/users/{{user_id}}/licks/{{id}}">{{name}}</a> {{#tonalities this}}{{/tonalities}}</li>
     {{/each}}
   </ul>
-</script> -->
+</script>
