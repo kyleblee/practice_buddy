@@ -13,6 +13,9 @@ $(function() {
   renderLicks();
 });
 
+
+// this could be refactored by passing in a callback function that will be used in the getJSON success
+// response for rendering the licks that are returned.
 function renderLicks() {
   // pull user ID from the url for JSON request
   const userId = window.location.href.match(/\/users\/\d\/licks/)[0].match(/\d/)[0];
@@ -25,4 +28,8 @@ function renderLicks() {
      const licksHTML = template(data);
      $('#licks').html(licksHTML);
   });
+}
+
+function filterAndSort() {
+
 }
