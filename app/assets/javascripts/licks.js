@@ -42,6 +42,7 @@ function renderLicks() {
 }
 
 function displayCallback(filterAndSortParams) {
+  //determines how to display licks, based on "sort" option
   if (filterAndSortParams["sort"] === "") {
     return function(data) { displayUnsortedLicks(data, filterAndSortParams); }
   } else if (filterAndSortParams["sort"] === "Tonality") {
@@ -56,45 +57,50 @@ function displayCallback(filterAndSortParams) {
 }
 
 function displayUnsortedLicks(data, filterAndSortParams) {
+  //for displaying licks with no filter or sort selected
   const template = Handlebars.compile(document.getElementById('unsorted-licks-template').innerHTML);
   const licksHTML = template(data);
   $('#licks').html(licksHTML);
-
   displaySortForm();
+  attachLickListeners();
 };
 
 function displayUnsortedDateLicks(data, filterAndSortParams) {
+  //for displaying date based sort options
   const template = dateTemplate(filterAndSortParams["sort"]);
   const licksHTML = template(data);
   $('#licks').html(licksHTML);
-
   displaySortForm();
+  attachLickListeners();
 }
 
 function displayTonalityOrArtistSort (data, filterAndSortParams) {
+  //for displaying tonality or artist sorted licks (with headers)
   const cleanedData = removeUnwantedSortHeaders(data, filterAndSortParams);
 
   $('#licks').empty();
   $('#filter-and-sort-form').empty();
 
   generateSortWithHeadersHTML(cleanedData);
-
   displaySortForm();
+  attachLickListeners();
 }
 
 function displaySortForm() {
+  //add filter and sort form to view so user can select other options if they wish
   const template = Handlebars.compile(document.getElementById('sort-form-template').innerHTML)
   const formHTML = template();
+
   $('#filter-and-sort-form').html(formHTML);
 
   $('form#filter-form').on('submit', function(e) {
     e.preventDefault();
-
     renderLicks();
   });
 }
 
 function removeUnwantedSortHeaders(data, filterAndSortParams) {
+  //remove unwanted headers from tonality / artist sort lists
   if (filterAndSortParams["filter"] !== "") {
     for (let header in data) {
       if (header !== filterAndSortParams["filter"]) {
@@ -106,6 +112,7 @@ function removeUnwantedSortHeaders(data, filterAndSortParams) {
 }
 
 function generateSortWithHeadersHTML(data) {
+  //generate HTML for tonality / artist lists (with headers) once unwanted headers have been removed
   const template = Handlebars.compile(document.getElementById('sort-with-headers-template').innerHTML);
 
   for (let header in data) {
@@ -117,6 +124,7 @@ function generateSortWithHeadersHTML(data) {
 }
 
 function formatDate(rawDate) {
+  //display formatted dates for date-based lists
   if (rawDate) {
     const date = new Date(rawDate);
     let dateInfo = `(${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()})`;
@@ -125,9 +133,24 @@ function formatDate(rawDate) {
 }
 
 function dateTemplate(sort) {
+  //determine which template to use for date-based lists
   if (sort === "Date Last Practiced") {
     return Handlebars.compile(document.getElementById('last-practiced-licks-template').innerHTML);
   } else {
     return Handlebars.compile(document.getElementById('scheduled-practice-licks-template').innerHTML);
   }
+}
+
+function attachLickListeners() {
+  //attach click event handler to lick list items to trigger show view with AJAX / Handlebars
+  $('a.lick-list-items').on('click',function(e) {
+    e.preventDefault();
+    const id = parseInt(this["dataset"]["id"]);
+    const user_id = parseInt(this["dataset"]["user_id"]);
+    showLick(id, user_id);
+  })
+}
+
+function showLick(id, user_id) {
+  debugger;
 }
