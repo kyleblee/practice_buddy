@@ -6,7 +6,7 @@
   <!-- Rendering licks via erb for initial index#licks requests -->
   <!-- <%= render_sorted_view(@user, @licks, params) %><br> -->
 
-<%= form_tag(user_licks_path(@user), method: 'get') do %>
+<%= form_tag(user_licks_path(@user), method: 'get', id: 'filter-form') do %>
   <%= label_tag "Filter by:" %>
   <%= select_tag :filter, grouped_options_for_select(Lick.grouped_options(@user)), {include_blank: true} %>
   <%= label_tag "Sort by:" %>

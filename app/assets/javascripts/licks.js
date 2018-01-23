@@ -11,14 +11,21 @@ $(document).on('turbolinks:load', function() {
       };
     })
 
-    renderLicks();
-  }
+    attachEventListeners();
+
+    renderLicks(displayUnsortedLicks);
+  };
 });
 
 
-// this could be refactored by passing in a callback function that will be used in the getJSON success
-// response for rendering the licks that are returned.
-function renderLicks() {
+function attachEventListeners() {
+  $('form#filter-form').on('submit', function(e) {
+    e.preventDefault();
+    debugger;
+  });
+}
+
+function renderLicks(displayCallback) {
   // pull user ID from the url for JSON request
   const userId = window.location.href.match(/\/users\/\d\/licks/)[0].match(/\d/)[0];
   const filterAndSortParams = {
@@ -26,7 +33,8 @@ function renderLicks() {
     sort: $('select#sort')[0].value
   }
 
-  $.getJSON(`/users/${userId}/licks`, filterAndSortParams, displayUnsortedLicks);
+  //sends ajax request and delegates to appropriate callback function to display licks
+  $.getJSON(`/users/${userId}/licks`, filterAndSortParams, displayCallback);
 }
 
 const displayUnsortedLicks = function(data) {
