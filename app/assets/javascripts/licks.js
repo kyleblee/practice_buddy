@@ -119,7 +119,7 @@ function generateSortWithHeadersHTML(data) {
 function formatDate(rawDate) {
   if (rawDate) {
     const date = new Date(rawDate);
-    let dateInfo = `(${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()})`;
+    let dateInfo = `(${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()})`;
     return dateInfo;
   };
 }
