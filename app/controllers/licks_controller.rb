@@ -30,6 +30,10 @@ class LicksController < ApplicationController
   def show
     @lick = Lick.find_by(id: params[:id])
     cant_find_lick_redirect if !@lick
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render json: @lick }
+    end
   end
 
   def edit

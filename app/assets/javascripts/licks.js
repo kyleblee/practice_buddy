@@ -79,7 +79,7 @@ function displayTonalityOrArtistSort (data, filterAndSortParams) {
   const cleanedData = removeUnwantedSortHeaders(data, filterAndSortParams);
 
   $('#licks').empty();
-  $('#filter-and-sort-form').empty();
+  $('#view-options').empty();
 
   generateSortWithHeadersHTML(cleanedData);
   displaySortForm();
@@ -91,7 +91,7 @@ function displaySortForm() {
   const template = Handlebars.compile(document.getElementById('sort-form-template').innerHTML)
   const formHTML = template();
 
-  $('#filter-and-sort-form').html(formHTML);
+  $('#view-options').html(formHTML);
 
   $('form#filter-form').on('submit', function(e) {
     e.preventDefault();
@@ -152,5 +152,25 @@ function attachLickListeners() {
 }
 
 function showLick(id, user_id) {
-  debugger;
+  //display lick#show view by sending AJAX GET request, removing lick#index elements, and adding lick#show elements
+  $.getJSON(`/users/${user_id}/licks/${id}`, function(data) {
+
+    //update header directly by replacing with name of lick
+    $('#licks-header').html(data["name"]);
+
+    //make a template for "basic information", remove licks#index and replace with specific lick info
+    displayBasicLickInfo(data);
+
+    //make a template for "tonalities" of that lick
+
+    //make a template for "backing tracks" of that lick
+
+    // make a template for "show options" that displays the "edit lick" and "delete lick" buttons
+  });
+}
+
+function displayBasicLickInfo(data) {
+  const template = Handlebars.compile(document.getElementById('lick-basic-info').innerHTML);
+  const lickHTML = template(data);
+  $('#licks').html(lickHTML);
 }

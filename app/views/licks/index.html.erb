@@ -1,10 +1,10 @@
-<h2>My Licks</h2>
+<h2 id="licks-header">My Licks</h2>
 
 <%= render 'layouts/messages' %>
 
 <div id="licks"></div>
 
-<div id="filter-and-sort-form"></div>
+<div id="view-options"></div>
 
 <%= button_to "Add a new lick", new_user_lick_path(@user), method: 'get' %><br>
 
@@ -58,4 +58,38 @@
 
 <script id="scheduled-practice-list-items" type="text/x-handlebars-template">
   <li><a href="/users/{{user_id}}/licks/{{id}}" class="lick-list-items" data-id="{{id}}" data-user_id="{{user_id}}">{{name}}</a> {{#scheduledPracticeDate this}}{{/scheduledPracticeDate}}</li>
+</script>
+
+<script id="lick-basic-info" type="text/x-handlebars-template">
+  <ul>
+    {{#if bpm}}
+      <li><strong>BPM:</strong> {{bpm}}</li>
+    {{/if}}
+
+    {{#if current_key}}
+      <li><strong>Current Key:</strong> {{current_key}}</li>
+    {{/if}}
+
+    {{#if last_practiced}}
+      <li><strong>Last Practiced:</strong> {{last_practiced}}</li>
+    {{/if}}
+
+    {{#if scheduled_practice}}
+      <li><strong>Scheduled Practice:</strong> {{scheduled_practice}}</li>
+    {{/if}}
+
+    {{#if performance_rating}}
+      <li><strong>Performance Rating:</strong> {{performance_rating}}</li>
+    {{/if}}
+
+    {{#if description}}
+      <li><strong>Description:</strong> {{description}}</li>
+    {{/if}}
+  </ul>
+</script>
+
+<script id="lick-show-options" type="text/x-handlebars-template">
+  <%= button_to "Edit Lick", '/users/{{user_id}}/licks/{{id}}/edit', method: 'get' %><br>
+
+  <button id="delete-lick-button" data-id="{{id}}" data-user_id="{{user_id}}">Delete Lick</button>
 </script>
