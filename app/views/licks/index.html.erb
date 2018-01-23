@@ -3,18 +3,20 @@
 <%= render 'layouts/messages' %>
 
 <div id="licks"></div>
-  <!-- Rendering licks via erb for initial index#licks requests -->
-  <!-- <%= render_sorted_view(@user, @licks, params) %><br> -->
 
-<%= form_tag(user_licks_path(@user), method: 'get', id: 'filter-form') do %>
-  <%= label_tag "Filter by:" %>
-  <%= select_tag :filter, grouped_options_for_select(Lick.grouped_options(@user)), {include_blank: true} %>
-  <%= label_tag "Sort by:" %>
-  <%= select_tag :sort, options_for_select(Lick::SORT_OPTIONS), {include_blank: true} %><br><br>
-  <%= submit_tag "Filter and Sort" %><br><br>
-<% end %>
+<div id="filter-and-sort-form"></div>
 
 <%= button_to "Add a new lick", new_user_lick_path(@user), method: 'get' %><br>
+
+<script id="sort-form-template" type="text/x-handlebars-template">
+  <%= form_tag(user_licks_path(@user), method: 'get', id: 'filter-form') do %>
+    <%= label_tag "Filter by:" %>
+    <%= select_tag :filter, grouped_options_for_select(Lick.grouped_options(@user)), {include_blank: true} %>
+    <%= label_tag "Sort by:" %>
+    <%= select_tag :sort, options_for_select(Lick::SORT_OPTIONS), {include_blank: true} %><br><br>
+    <%= submit_tag "Filter and Sort" %><br><br>
+  <% end %>
+</script>
 
 <script id="unsorted-licks-template" type="text/x-handlebars-template">
   <ul>
