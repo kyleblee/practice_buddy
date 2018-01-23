@@ -11,7 +11,17 @@ $(document).on('turbolinks:load', function() {
       };
     })
 
+    Handlebars.registerHelper('lastPracticedDate', function(lick) {
+      return formatDate(lick.last_practiced);
+    })
+
+    Handlebars.registerHelper('scheduledPracticeDate', function(lick) {
+      return formatDate(lick.scheduled_practice);
+    })
+
     Handlebars.registerPartial('tonality-list-items', document.getElementById('tonality-list-items').innerHTML);
+    Handlebars.registerPartial('last-practiced-list-items', document.getElementById('last-practiced-list-items').innerHTML);
+    Handlebars.registerPartial('scheduled-practice-list-items', document.getElementById('scheduled-practice-list-items').innerHTML);
 
     displaySortForm();
 
@@ -41,8 +51,7 @@ function displayCallback(filterAndSortParams) {
   } else if (filterAndSortParams["sort"] === "Date Last Practiced") {
     return function(data) { displayUnsortedDateLicks(data, filterAndSortParams); }
   } else if (filterAndSortParams["sort"] === "Scheduled Practice Date") {
-    // NEED TO KEEP BUILDING OUT THIS CONDITIONAL FLOW BASED ON SORT. REMEMBER THAT FILTER IS ALREADY
-    // TAKEN CARE OF UNLESS THE SORT REQUIRES HEADERS.
+    return function(data) { displayUnsortedDateLicks(data, filterAndSortParams); }
   }
 }
 
@@ -55,7 +64,11 @@ function displayUnsortedLicks(data, filterAndSortParams) {
 };
 
 function displayUnsortedDateLicks(data, filterAndSortParams) {
-  debugger;
+  const template = dateTemplate(filterAndSortParams["sort"]);
+  const licksHTML = template(data);
+  $('#licks').html(licksHTML);
+
+  displaySortForm();
 }
 
 function displayTonalityOrArtistSort (data, filterAndSortParams) {
@@ -67,10 +80,6 @@ function displayTonalityOrArtistSort (data, filterAndSortParams) {
   generateSortWithHeadersHTML(cleanedData);
 
   displaySortForm();
-}
-
-function displayArtistSort(data, filterAndSortParams) {
-  debugger;
 }
 
 function displaySortForm() {
@@ -104,5 +113,21 @@ function generateSortWithHeadersHTML(data) {
     licksHTML += template(data[header]);
     licksHTML += `</ul>`
     $('#licks').append(licksHTML);
+  }
+}
+
+function formatDate(rawDate) {
+  if (rawDate) {
+    const date = new Date(rawDate);
+    let dateInfo = `(${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()})`;
+    return dateInfo;
+  };
+}
+
+function dateTemplate(sort) {
+  if (sort === "Date Last Practiced") {
+    return Handlebars.compile(document.getElementById('last-practiced-licks-template').innerHTML);
+  } else {
+    return Handlebars.compile(document.getElementById('scheduled-practice-licks-template').innerHTML);
   }
 }

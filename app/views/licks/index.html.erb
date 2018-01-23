@@ -26,6 +26,22 @@
   </ul>
 </script>
 
+<script id="last-practiced-licks-template" type="text/x-handlebars-template">
+  <ul>
+    {{#each this}}
+      {{> last-practiced-list-items}}
+    {{/each}}
+  </ul>
+</script>
+
+<script id="scheduled-practice-licks-template" type="text/x-handlebars-template">
+  <ul>
+    {{#each this}}
+      {{> scheduled-practice-list-items}}
+    {{/each}}
+  </ul>
+</script>
+
 <script id="tonality-list-items" type="text/x-handlebars-template">
   <li><a href="/users/{{user_id}}/licks/{{id}}">{{name}}</a> {{#tonalities this}}{{/tonalities}}</li>
 </script>
@@ -34,4 +50,12 @@
   {{#each this}}
     <li><a href="/users/{{user_id}}/licks/{{id}}">{{name}}</a></li>
   {{/each}}
+</script>
+
+<script id="last-practiced-list-items" type="text/x-handlebars-template">
+  <li><a href="/users/{{user_id}}/licks/{{id}}">{{name}}</a> {{#lastPracticedDate this}}{{/lastPracticedDate}}</li>
+</script>
+
+<script id="scheduled-practice-list-items" type="text/x-handlebars-template">
+  <li><a href="/users/{{user_id}}/licks/{{id}}">{{name}}</a> {{#scheduledPracticeDate this}}{{/scheduledPracticeDate}}</li>
 </script>
