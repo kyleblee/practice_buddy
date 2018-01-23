@@ -11,6 +11,8 @@ $(document).on('turbolinks:load', function() {
       };
     })
 
+    Handlebars.registerPartial('tonality-list-items', document.getElementById('tonality-list-items').innerHTML);
+
     attachEventListeners();
 
     renderLicks(displayUnsortedLicks);
@@ -21,6 +23,8 @@ $(document).on('turbolinks:load', function() {
 function attachEventListeners() {
   $('form#filter-form').on('submit', function(e) {
     e.preventDefault();
+    const filter = $('select#filter')[0].value;
+    const sort = $('select#sort')[0].value;
     debugger;
   });
 }

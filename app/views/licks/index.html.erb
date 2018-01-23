@@ -19,8 +19,11 @@
 <script id="unsorted-licks-template" type="text/x-handlebars-template">
   <ul>
     {{#each this}}
-      <li>
-        <a href="/users/{{user_id}}/licks/{{id}}">{{name}}</a> {{#tonalities this}}{{/tonalities}}</li>
+      {{> tonality-list-items}}
     {{/each}}
   </ul>
+</script>
+
+<script id="tonality-list-items" type="text/x-handlebars-template">
+  <li><a href="/users/{{user_id}}/licks/{{id}}">{{name}}</a> {{#tonalities this}}{{/tonalities}}</li>
 </script>
