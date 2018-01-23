@@ -12,11 +12,31 @@ $(document).on('turbolinks:load', function() {
     })
 
     Handlebars.registerHelper('lastPracticedDate', function(lick) {
-      return formatDate(lick.last_practiced);
+      if (lick.last_practiced) {
+        let dateHTML = '(' + formatDate(lick.last_practiced) + ')';
+        return dateHTML;
+      }
     })
 
     Handlebars.registerHelper('scheduledPracticeDate', function(lick) {
+      if (lick.scheduled_practice) {
+        let dateHTML = '(' + formatDate(lick.scheduled_practice) + ')';
+        return dateHTML;
+      }
+    })
+
+    Handlebars.registerHelper('lickShowLastPracticedDate', function(lick) {
+      return formatDate(lick.last_practiced);
+    })
+
+    Handlebars.registerHelper('lickShowScheduledPracticeDate', function(lick) {
       return formatDate(lick.scheduled_practice);
+    })
+
+    Handlebars.registerHelper('infoAvailable', function(lick) {
+      if (lick["bpm"] === null && lick["current_key"] === null && lick["description"] === null && lick["last_practiced"] === null && lick["performance_rating"] === null && lick["scheduled_practice"] === null) {
+        return "<li>There isn't any information available for this lick, yet!</li>"
+      }
     })
 
     Handlebars.registerPartial('tonality-list-items', document.getElementById('tonality-list-items').innerHTML);
@@ -127,7 +147,7 @@ function formatDate(rawDate) {
   //display formatted dates for date-based lists
   if (rawDate) {
     const date = new Date(rawDate);
-    let dateInfo = `(${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()})`;
+    let dateInfo = `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
     return dateInfo;
   };
 }
@@ -158,7 +178,6 @@ function showLick(id, user_id) {
     //update header directly by replacing with name of lick
     $('#licks-header').html(data["name"]);
 
-    //make a template for "basic information", remove licks#index and replace with specific lick info
     displayBasicLickInfo(data);
 
     //make a template for "tonalities" of that lick
@@ -170,7 +189,8 @@ function showLick(id, user_id) {
 }
 
 function displayBasicLickInfo(data) {
-  const template = Handlebars.compile(document.getElementById('lick-basic-info').innerHTML);
+  //make a template for "basic information", remove licks#index and replace with specific lick info
+  const template = Handlebars.compile(document.getElementById('lick-show-basic-info').innerHTML);
   const lickHTML = template(data);
   $('#licks').html(lickHTML);
 }

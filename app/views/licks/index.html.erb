@@ -60,7 +60,7 @@
   <li><a href="/users/{{user_id}}/licks/{{id}}" class="lick-list-items" data-id="{{id}}" data-user_id="{{user_id}}">{{name}}</a> {{#scheduledPracticeDate this}}{{/scheduledPracticeDate}}</li>
 </script>
 
-<script id="lick-basic-info" type="text/x-handlebars-template">
+<script id="lick-show-basic-info" type="text/x-handlebars-template">
   <ul>
     {{#if bpm}}
       <li><strong>BPM:</strong> {{bpm}}</li>
@@ -71,11 +71,11 @@
     {{/if}}
 
     {{#if last_practiced}}
-      <li><strong>Last Practiced:</strong> {{last_practiced}}</li>
+      <li><strong>Last Practiced:</strong> {{#lickShowLastPracticedDate this}}{{/lickShowLastPracticedDate}}</li>
     {{/if}}
 
     {{#if scheduled_practice}}
-      <li><strong>Scheduled Practice:</strong> {{scheduled_practice}}</li>
+      <li><strong>Scheduled Practice:</strong> {{#lickShowScheduledPracticeDate this}}{{/lickShowScheduledPracticeDate}}</li>
     {{/if}}
 
     {{#if performance_rating}}
@@ -85,7 +85,13 @@
     {{#if description}}
       <li><strong>Description:</strong> {{description}}</li>
     {{/if}}
+
+    {{#infoAvailable this}}{{/infoAvailable}}
   </ul>
+</script>
+
+<script id="lick-show-tonalities-list" type="text/x-handlebars-template">
+
 </script>
 
 <script id="lick-show-options" type="text/x-handlebars-template">
