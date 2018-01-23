@@ -35,10 +35,14 @@ function displayCallback(filterAndSortParams) {
   if (filterAndSortParams["sort"] === "") {
     return function(data) { displayUnsortedLicks(data, filterAndSortParams); }
   } else if (filterAndSortParams["sort"] === "Tonality") {
-    return function(data) { displayTonalitySort(data, filterAndSortParams); }
+    return function(data) { displayTonalityOrArtistSort(data, filterAndSortParams); }
   } else if (filterAndSortParams["sort"] === "Artist") {
+    return function(data) { displayTonalityOrArtistSort(data, filterAndSortParams); }
+  } else if (filterAndSortParams["sort"] === "Date Last Practiced") {
+    return function(data) { displayUnsortedDateLicks(data, filterAndSortParams); }
+  } else if (filterAndSortParams["sort"] === "Scheduled Practice Date") {
     // NEED TO KEEP BUILDING OUT THIS CONDITIONAL FLOW BASED ON SORT. REMEMBER THAT FILTER IS ALREADY
-    // TAKEN CARE OF UNLESS THE SORT REQUIRES HEADERS
+    // TAKEN CARE OF UNLESS THE SORT REQUIRES HEADERS.
   }
 }
 
@@ -50,27 +54,23 @@ function displayUnsortedLicks(data, filterAndSortParams) {
   displaySortForm();
 };
 
-function displayTonalitySort (data, filterAndSortParams) {
-  if (filterAndSortParams["filter"] !== "") {
-    for (let tonality in data) {
-      if (tonality !== filterAndSortParams["filter"]) {
-        delete data[tonality];
-      }
-    }
-  }
+function displayUnsortedDateLicks(data, filterAndSortParams) {
+  debugger;
+}
 
-  const template = Handlebars.compile(document.getElementById('tonality-sort-licks-template').innerHTML);
+function displayTonalityOrArtistSort (data, filterAndSortParams) {
+  const cleanedData = removeUnwantedSortHeaders(data, filterAndSortParams);
+
   $('#licks').empty();
   $('#filter-and-sort-form').empty();
 
-  for (let tonality in data) {
-    let licksHTML = `<h4>${tonality}</h4><ul>`
-    licksHTML += template(data[tonality]);
-    licksHTML += `</ul>`
-    $('#licks').append(licksHTML);
-  }
+  generateSortWithHeadersHTML(cleanedData);
 
   displaySortForm();
+}
+
+function displayArtistSort(data, filterAndSortParams) {
+  debugger;
 }
 
 function displaySortForm() {
@@ -83,4 +83,26 @@ function displaySortForm() {
 
     renderLicks();
   });
+}
+
+function removeUnwantedSortHeaders(data, filterAndSortParams) {
+  if (filterAndSortParams["filter"] !== "") {
+    for (let header in data) {
+      if (header !== filterAndSortParams["filter"]) {
+        delete data[header];
+      };
+    };
+  };
+  return data;
+}
+
+function generateSortWithHeadersHTML(data) {
+  const template = Handlebars.compile(document.getElementById('sort-with-headers-template').innerHTML);
+
+  for (let header in data) {
+    let licksHTML = `<h4>${header}</h4><ul>`
+    licksHTML += template(data[header]);
+    licksHTML += `</ul>`
+    $('#licks').append(licksHTML);
+  }
 }
