@@ -23,9 +23,13 @@ $(document).on('turbolinks:load', function() {
 function attachEventListeners() {
   $('form#filter-form').on('submit', function(e) {
     e.preventDefault();
+
     const filter = $('select#filter')[0].value;
     const sort = $('select#sort')[0].value;
-    debugger;
+
+    if (sort === "Tonality") {
+      renderLicks(displayTonalitySort);
+    }
   });
 }
 
@@ -46,3 +50,15 @@ const displayUnsortedLicks = function(data) {
   const licksHTML = template(data);
   $('#licks').html(licksHTML);
 };
+
+const displayTonalitySort = function(data) {
+  const template = Handlebars.compile(document.getElementById('tonality-sort-licks-template').innerHTML);
+  $('#licks').empty();
+
+  for (let tonality in data) {
+    let licksHTML = `<h4>${tonality}</h4><ul>`
+    licksHTML += template(data[tonality]);
+    licksHTML += `</ul>`
+    $('#licks').append(licksHTML);
+  }
+}
