@@ -108,5 +108,7 @@
 <script id="lick-show-options" type="text/x-handlebars-template">
   <%= button_to "Edit Lick", '/users/{{user_id}}/licks/{{id}}/edit', method: 'get' %><br>
 
-  <button id="delete-lick-button" data-id="{{id}}" data-user_id="{{user_id}}">Delete Lick</button><br>
+  <button id="delete-lick-button" data-id="{{id}}" data-user_id="{{user_id}}">Delete Lick</button><br><br>
+
+  <button id="licks-back-button">Go back to all licks</button>
 </script>

@@ -220,6 +220,7 @@ function displayLickShowOptions(data) {
   const optionsHTML = template(data);
   $('#view-options').html(optionsHTML);
   attachDeleteHandler(data);
+  attachBackHandler();
 }
 
 function attachDeleteHandler(data) {
@@ -238,4 +239,12 @@ function sendDeleteRequest(e, data) {
       method: 'delete'
     });
   };
+}
+
+function attachBackHandler() {
+  $('button#licks-back-button').on('click', function(e) {
+    $('h2#licks-header').html("My Licks");
+    displayIndexOptions();
+    renderLicks();
+  });
 }
