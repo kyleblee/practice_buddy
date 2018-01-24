@@ -219,4 +219,23 @@ function displayLickShowOptions(data) {
   const template = Handlebars.compile(document.getElementById('lick-show-options').innerHTML);
   const optionsHTML = template(data);
   $('#view-options').html(optionsHTML);
+  attachDeleteHandler(data);
+}
+
+function attachDeleteHandler(data) {
+  $('button#delete-lick-button').on('click', deleteHandler(data));
+}
+
+function deleteHandler(data) {
+  return function(e) { sendDeleteRequest(e, data) };
+}
+
+function sendDeleteRequest(e, data) {
+  if (confirm("Are you sure you want to delete this lick?")) {
+    debugger;
+    $.ajax({
+      url: `/users/${data["user_id"]}/licks/${data["id"]}`,
+      method: 'delete'
+    });
+  };
 }
