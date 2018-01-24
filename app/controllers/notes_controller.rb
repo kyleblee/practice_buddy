@@ -8,13 +8,12 @@ class NotesController < ApplicationController
   end
 
   def create
-    binding.pry
     @lick = Lick.find_by(id: params["lick_id"].to_i)
     @note = @lick.notes.build(note_params)
     if @note.save
-      render json: @note
+      render json: @note, status: 201
     else
-      binding.pry #need to come up with graceful error handling (use status code 400?)
+      render json: @note, status: 400
     end
   end
 

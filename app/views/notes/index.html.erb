@@ -1,8 +1,9 @@
-<h4>Notes</h4>
+<h4 id="notes-header">Notes</h4>
+<div id="notes-errors"></div>
 <div id="new-note"></div>
 <div id="notes-list">
   {{#each this}}
     <p><strong>{{#noteDate this}}{{/noteDate}}</strong></p>
-    <p class="notes-p-tags">{{content}}</p><br>
+    <p class="notes-p-tags">{{content}}</p>
   {{/each}}
 </div>

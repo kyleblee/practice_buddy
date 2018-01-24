@@ -20,10 +20,10 @@ function notesIndexTemplateCallback(lickData) {
 
 function renderNotesIndexTemplate(lickData, templateData) {
   const template = Handlebars.compile(templateData);
-  debugger;
-  const notesHTML = template(lickData["notes"]);
+  const notesHTML = template(lickData["notes"].reverse());
   $('#view-options').append(notesHTML);
-  //trigger new note AJAX here, to ensure that the previous AJAX callback has attached the form in time
+
+  //trigger AJAX for new note template here, to ensure that the previous AJAX callback has attached the form in time
   $.get(`/users/${lickData["user_id"]}/notes/new`, newNoteTemplateCallback(lickData));
 }
 
@@ -40,8 +40,23 @@ function renderNewNoteTemplate(lickData, templateData) {
   $('form#new-note-form').on('submit', function(e) {
     e.preventDefault();
     const formData = $(this).serialize();
-    $.post($(this).attr("action"), formData, function(data) {
-      debugger;
-    })
+    $.ajax({
+      url: $(this).attr("action"),
+      method: 'post',
+      data: formData,
+      success: function(data) {
+        showNewNote(data);
+      },
+      error: function(response) {
+        $('div#notes-errors').html("<em>Sorry, something went wrong. Please try again.</em>")
+      }
+    });
   });
+}
+
+function showNewNote(data) {
+  $('form#new-note-form textarea').val("");
+  $('div#notes-errors').empty();
+  let newLickHTML = `<p><strong>${formatDate(data["created_at"])}</strong></p><p class="notes-p-tags">${data["content"]}</p>`
+  $('div#notes-list').prepend(newLickHTML);
 }
