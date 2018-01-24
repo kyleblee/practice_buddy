@@ -7,6 +7,7 @@ class Lick < ApplicationRecord
   has_many :tonalities, through: :lick_tonalities
   has_many :backing_tracks, through: :backing_track_licks
   has_many :genres, through: :genre_licks
+  has_many :notes
 
   validates :name, presence: true
   validates :performance_rating, :inclusion => { :in => 1..5 }, allow_nil: true
