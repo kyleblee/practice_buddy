@@ -43,7 +43,7 @@ $(document).on('turbolinks:load', function() {
     Handlebars.registerPartial('last-practiced-list-items', document.getElementById('last-practiced-list-items').innerHTML);
     Handlebars.registerPartial('scheduled-practice-list-items', document.getElementById('scheduled-practice-list-items').innerHTML);
 
-    displaySortForm();
+    displayIndexOptions();
 
     renderLicks();
   };
@@ -81,7 +81,7 @@ function displayUnsortedLicks(data, filterAndSortParams) {
   const template = Handlebars.compile(document.getElementById('unsorted-licks-template').innerHTML);
   const licksHTML = template(data);
   $('#licks').html(licksHTML);
-  displaySortForm();
+  displayIndexOptions();
   attachLickListeners();
 };
 
@@ -90,7 +90,7 @@ function displayUnsortedDateLicks(data, filterAndSortParams) {
   const template = dateTemplate(filterAndSortParams["sort"]);
   const licksHTML = template(data);
   $('#licks').html(licksHTML);
-  displaySortForm();
+  displayIndexOptions();
   attachLickListeners();
 }
 
@@ -102,13 +102,13 @@ function displayTonalityOrArtistSort (data, filterAndSortParams) {
   $('#view-options').empty();
 
   generateSortWithHeadersHTML(cleanedData);
-  displaySortForm();
+  displayIndexOptions();
   attachLickListeners();
 }
 
-function displaySortForm() {
+function displayIndexOptions() {
   //add filter and sort form to view so user can select other options if they wish
-  const template = Handlebars.compile(document.getElementById('sort-form-template').innerHTML)
+  const template = Handlebars.compile(document.getElementById('lick-index-options').innerHTML)
   const formHTML = template();
 
   $('#view-options').html(formHTML);
@@ -179,12 +179,9 @@ function showLick(id, user_id) {
     $('#licks-header').html(data["name"]);
 
     displayBasicLickInfo(data);
-
-    //make a template for "tonalities" of that lick
-
-    //make a template for "backing tracks" of that lick
-
-    // make a template for "show options" that displays the "edit lick" and "delete lick" buttons
+    displayLickTonalities(data);
+    displayLickBackingTracks(data);
+    displayLickShowOptions(data);
   });
 }
 
@@ -193,4 +190,33 @@ function displayBasicLickInfo(data) {
   const template = Handlebars.compile(document.getElementById('lick-show-basic-info').innerHTML);
   const lickHTML = template(data);
   $('#licks').html(lickHTML);
+}
+
+function displayLickTonalities(data) {
+  //make a template for "tonalities" associated with lick and display on page
+  if (data["tonalities"].length > 0) {
+    const template = Handlebars.compile(document.getElementById('lick-show-tonalities-list').innerHTML);
+    const tonalitiesHTML = template(data["tonalities"])
+    $('#licks').append(tonalitiesHTML);
+  } else {
+    $('#licks').append("<h4>Tonalities</h4><ul><li>This lick doesn't currently have any tonalities</li></ul>");
+  }
+}
+
+function displayLickBackingTracks(data) {
+  //make a template for "backing_tracks" associated with lick and display on page
+  if (data["backing_tracks"].length > 0) {
+    const template = Handlebars.compile(document.getElementById('lick-show-backing-tracks-list').innerHTML);
+    const backingTracksHTML = template(data["backing_tracks"])
+    $('#licks').append(backingTracksHTML);
+  } else {
+    $('#licks').append("<h4>Backing Tracks</h4><ul><li>This lick doesn't currently have any backing tracks</li></ul>");
+  }
+}
+
+function displayLickShowOptions(data) {
+  //make a template for "show options" that displays the "edit lick" and "delete lick" buttons
+  const template = Handlebars.compile(document.getElementById('lick-show-options').innerHTML);
+  const optionsHTML = template(data);
+  $('#view-options').html(optionsHTML);
 }

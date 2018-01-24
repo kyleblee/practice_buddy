@@ -6,9 +6,7 @@
 
 <div id="view-options"></div>
 
-<%= button_to "Add a new lick", new_user_lick_path(@user), method: 'get' %><br>
-
-<script id="sort-form-template" type="text/x-handlebars-template">
+<script id="lick-index-options" type="text/x-handlebars-template">
   <%= form_tag(user_licks_path(@user), method: 'get', id: 'filter-form') do %>
     <%= label_tag "Filter by:" %>
     <%= select_tag :filter, grouped_options_for_select(Lick.grouped_options(@user)), {include_blank: true} %>
@@ -16,6 +14,8 @@
     <%= select_tag :sort, options_for_select(Lick::SORT_OPTIONS), {include_blank: true} %><br><br>
     <%= submit_tag "Filter and Sort" %><br><br>
   <% end %>
+
+  <%= button_to "Add a new lick", new_user_lick_path(@user), method: 'get' %><br>
 </script>
 
 <script id="unsorted-licks-template" type="text/x-handlebars-template">
@@ -91,11 +91,22 @@
 </script>
 
 <script id="lick-show-tonalities-list" type="text/x-handlebars-template">
+  <h4>Tonalities</h4>
+  {{#each this}}
+    <li>{{name}}</li>
+  {{/each}}
+</script>
 
+<script id="lick-show-backing-tracks-list" type="text/x-handlebars-template">
+  <h4>Backing Tracks</h4>
+  {{#each this}}
+    <li><a href="/backing_tracks/{{id}}">{{name}}</a></li>
+  {{/each}}
+  <br>
 </script>
 
 <script id="lick-show-options" type="text/x-handlebars-template">
   <%= button_to "Edit Lick", '/users/{{user_id}}/licks/{{id}}/edit', method: 'get' %><br>
 
-  <button id="delete-lick-button" data-id="{{id}}" data-user_id="{{user_id}}">Delete Lick</button>
+  <button id="delete-lick-button" data-id="{{id}}" data-user_id="{{user_id}}">Delete Lick</button><br>
 </script>
