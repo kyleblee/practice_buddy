@@ -182,6 +182,7 @@ function showLick(id, user_id) {
     displayLickTonalities(data);
     displayLickBackingTracks(data);
     displayLickShowOptions(data);
+    displayNotes(data);
   });
 }
 

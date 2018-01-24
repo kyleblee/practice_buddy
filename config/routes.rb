@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :licks
     resources :tunes
     resources :backing_tracks
+    resources :notes, only: [:index, :create]
   end
 
   resources :location
