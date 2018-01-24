@@ -224,14 +224,17 @@ function displayLickShowOptions(data) {
 }
 
 function attachDeleteHandler(data) {
+  // attach click handler to delete button and use a closure to pass data and the event
   $('button#delete-lick-button').on('click', deleteHandler(data));
 }
 
 function deleteHandler(data) {
+  //closure to pass both event and data
   return function(e) { sendDeleteRequest(e, data) };
 }
 
 function sendDeleteRequest(e, data) {
+  //confirm delete and then send request via AJAX if approved
   if (confirm("Are you sure you want to delete this lick?")) {
     debugger;
     $.ajax({
@@ -242,6 +245,7 @@ function sendDeleteRequest(e, data) {
 }
 
 function attachBackHandler() {
+  //attach click handler for going back to the licks#index view via AJAX
   $('button#licks-back-button').on('click', function(e) {
     $('h2#licks-header').html("My Licks");
     displayIndexOptions();
