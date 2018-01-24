@@ -1,6 +1,8 @@
+<h4>Notes</h4>
 <div id="new-note"></div>
 <div id="notes-list">
-  <ul>
-    <li>NEED TO FILL THIS IN ONCE A FEW ARE CREATED.</li>
-  </ul>
+  {{#each this}}
+    <p><strong>{{#noteDate this}}{{/noteDate}}</strong></p>
+    <p class="notes-p-tags">{{content}}</p><br>
+  {{/each}}
 </div>

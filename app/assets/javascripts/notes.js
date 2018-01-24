@@ -1,3 +1,12 @@
+$(document).on('turbolinks:load', function() {
+  Handlebars.registerHelper('noteDate', function(note) {
+    if (note.created_at) {
+      let dateHTML = formatDate(note.created_at);
+      return dateHTML;
+    };
+  });
+});
+
 function displayNotes(lickData) {
   //get Handlebars templates for notes and use callbacks with closures to pass lickData and templateData along
   $.get(`/users/${lickData["user_id"]}/notes`, notesIndexTemplateCallback(lickData));
@@ -11,7 +20,8 @@ function notesIndexTemplateCallback(lickData) {
 
 function renderNotesIndexTemplate(lickData, templateData) {
   const template = Handlebars.compile(templateData);
-  const notesHTML = template(lickData);
+  debugger;
+  const notesHTML = template(lickData["notes"]);
   $('#view-options').append(notesHTML);
   //trigger new note AJAX here, to ensure that the previous AJAX callback has attached the form in time
   $.get(`/users/${lickData["user_id"]}/notes/new`, newNoteTemplateCallback(lickData));
@@ -33,10 +43,5 @@ function renderNewNoteTemplate(lickData, templateData) {
     $.post($(this).attr("action"), formData, function(data) {
       debugger;
     })
-    // $.ajax({
-    //   url: $(this).attr("action"),
-    //   method: 'post',
-    //   data: formData
-    // });
   });
 }
