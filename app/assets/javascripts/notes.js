@@ -25,6 +25,13 @@ Note.prototype.formatCreatedAtDate = function() {
   return dateInfo;
 }
 
+Note.prototype.showNewNote = function() {
+  $('form#new-note-form textarea').val("");
+  $('div#notes-errors').empty();
+  let newLickHTML = `<p><strong>${this.formatCreatedAtDate()}</strong></p><p class="notes-p-tags">${this.content}</p>`
+  $('div#notes-list').prepend(newLickHTML);
+}
+
 function notesIndexTemplateCallback(lickData) {
   return function(data) {
     renderNotesIndexTemplate(lickData, data);
@@ -62,19 +69,12 @@ function attachAddNoteEventListener() {
       method: 'post',
       data: formData,
       success: function(data) {
-        showNewNote(data);
+        const currentNote = new Note(data);
+        currentNote.showNewNote();
       },
       error: function(response) {
         $('div#notes-errors').html("<em>Sorry, something went wrong. Please try again.</em><br><br>")
       }
     });
   });
-}
-
-function showNewNote(data) {
-  const currentNote = new Note(data);
-  $('form#new-note-form textarea').val("");
-  $('div#notes-errors').empty();
-  let newLickHTML = `<p><strong>${currentNote.formatCreatedAtDate()}</strong></p><p class="notes-p-tags">${data["content"]}</p>`
-  $('div#notes-list').prepend(newLickHTML);
 }
