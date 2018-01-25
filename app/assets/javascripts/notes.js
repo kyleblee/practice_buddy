@@ -1,8 +1,8 @@
 $(document).on('turbolinks:load', function() {
   Handlebars.registerHelper('noteDate', function(note) {
     if (note.created_at) {
-      let dateHTML = formatDate(note.created_at);
-      return dateHTML;
+      const currentNote = new Note(note);
+      return currentNote.formatCreatedAtDate();
     };
   });
 
@@ -10,6 +10,20 @@ $(document).on('turbolinks:load', function() {
     attachAddNoteEventListener();
   }
 });
+
+let Note = function(attributes) {
+  this.id = attributes.id;
+  this.content = attributes.content;
+  this.user_id = attributes.user_id;
+  this.lick_id = attributes.lick_id;
+  this.created_at = attributes.created_at;
+}
+
+Note.prototype.formatCreatedAtDate = function() {
+  const date = new Date(this.created_at);
+  let dateInfo = `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
+  return dateInfo;
+}
 
 function displayNotes(lickData) {
   //get Handlebars templates for notes and use callbacks with closures to pass lickData and templateData along
@@ -63,8 +77,9 @@ function attachAddNoteEventListener() {
 }
 
 function showNewNote(data) {
+  const currentNote = new Note(data);
   $('form#new-note-form textarea').val("");
   $('div#notes-errors').empty();
-  let newLickHTML = `<p><strong>${formatDate(data["created_at"])}</strong></p><p class="notes-p-tags">${data["content"]}</p>`
+  let newLickHTML = `<p><strong>${currentNote.formatCreatedAtDate()}</strong></p><p class="notes-p-tags">${data["content"]}</p>`
   $('div#notes-list').prepend(newLickHTML);
 }

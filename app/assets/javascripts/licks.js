@@ -13,24 +13,28 @@ $(document).on('turbolinks:load', function() {
 
     Handlebars.registerHelper('lastPracticedDate', function(lick) {
       if (lick.last_practiced) {
-        let dateHTML = '(' + formatDate(lick.last_practiced) + ')';
+        const currentLick = new Lick(lick);
+        let dateHTML = '(' + currentLick.formatDate("last_practiced") + ')';
         return dateHTML;
       }
     })
 
     Handlebars.registerHelper('scheduledPracticeDate', function(lick) {
       if (lick.scheduled_practice) {
-        let dateHTML = '(' + formatDate(lick.scheduled_practice) + ')';
+        const currentLick = new Lick(lick);
+        let dateHTML = '(' + currentLick.formatDate("scheduled_practice") + ')';
         return dateHTML;
       }
     })
 
     Handlebars.registerHelper('lickShowLastPracticedDate', function(lick) {
-      return formatDate(lick.last_practiced);
+      const currentLick = new Lick(lick);
+      return currentLick.formatDate("last_practiced");
     })
 
     Handlebars.registerHelper('lickShowScheduledPracticeDate', function(lick) {
-      return formatDate(lick.scheduled_practice);
+      const currentLick = new Lick(lick);
+      return currentLick.formatDate("scheduled_practice");
     })
 
     Handlebars.registerHelper('infoAvailable', function(lick) {
@@ -65,9 +69,13 @@ let Lick = function(attributes) {
   this.user_id = attributes.user_id;
   this.created_at = attributes.created_at;
   this.updated_at = attributes.updated_at;
-  // Will this notes property work? to build a notes association? That would be
-  // convenient / useful, at least.
   this.notes = attributes.notes;
+}
+
+Lick.prototype.formatDate = function(desiredDateKey) {
+  const date = new Date(this[desiredDateKey]);
+  let dateInfo = `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
+  return dateInfo;
 }
 
 function renderLicks() {
@@ -162,15 +170,6 @@ function generateSortWithHeadersHTML(data) {
     licksHTML += `</ul>`
     $('#licks').append(licksHTML);
   }
-}
-
-function formatDate(rawDate) {
-  //display formatted dates for date-based lists
-  if (rawDate) {
-    const date = new Date(rawDate);
-    let dateInfo = `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
-    return dateInfo;
-  };
 }
 
 function dateTemplate(sort) {
