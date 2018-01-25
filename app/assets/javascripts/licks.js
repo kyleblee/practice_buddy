@@ -56,6 +56,7 @@ $(document).on('turbolinks:load', function() {
 // to implement JavaScript OOP requirement (mostly going to use this for
 // single lick views--like, licks#show--and for notes, if I can get that to work)
 let Lick = function(attributes) {
+  //refactor this by manually building out mass assignment
   this.id = attributes.id;
   this.name = attributes.name;
   this.bpm = attributes.bpm;
@@ -70,12 +71,57 @@ let Lick = function(attributes) {
   this.created_at = attributes.created_at;
   this.updated_at = attributes.updated_at;
   this.notes = attributes.notes;
+  this.tonalities = attributes.tonalities;
+  this.backing_tracks = attributes.backing_tracks;
 }
 
 Lick.prototype.formatDate = function(desiredDateKey) {
   const date = new Date(this[desiredDateKey]);
   let dateInfo = `${date.getUTCMonth() + 1}/${date.getUTCDate()}/${date.getUTCFullYear()}`;
   return dateInfo;
+}
+
+Lick.prototype.displayBasicLickInfo = function() {
+  //make a template for "basic information", remove licks#index and replace with specific lick info
+  const template = Handlebars.compile(document.getElementById('lick-show-basic-info').innerHTML);
+  const lickHTML = template(this);
+  $('#licks').html(lickHTML);
+}
+
+Lick.prototype.displayLickTonalities = function() {
+  //make a template for "tonalities" associated with lick and display on page
+  if (this.tonalities.length > 0) {
+    const template = Handlebars.compile(document.getElementById('lick-show-tonalities-list').innerHTML);
+    const tonalitiesHTML = template(this.tonalities)
+    $('#licks').append(tonalitiesHTML);
+  } else {
+    $('#licks').append("<h4>Tonalities</h4><ul><li>This lick doesn't currently have any tonalities</li></ul>");
+  }
+}
+
+Lick.prototype.displayLickBackingTracks = function() {
+  //make a template for "backing_tracks" associated with lick and display on page
+  if (this.backing_tracks.length > 0) {
+    const template = Handlebars.compile(document.getElementById('lick-show-backing-tracks-list').innerHTML);
+    const backingTracksHTML = template(this.backing_tracks)
+    $('#licks').append(backingTracksHTML);
+  } else {
+    $('#licks').append("<h4>Backing Tracks</h4><ul><li>This lick doesn't currently have any backing tracks</li></ul>");
+  }
+}
+
+Lick.prototype.displayLickShowOptions = function() {
+  //make a template for "show options" that displays the "edit lick" and "delete lick" buttons
+  const template = Handlebars.compile(document.getElementById('lick-show-options').innerHTML);
+  const optionsHTML = template(this);
+  $('#view-options').html(optionsHTML);
+  attachDeleteHandler(this);
+  attachBackHandler();
+}
+
+Lick.prototype.displayNotes = function() {
+  //get Handlebars templates for notes and use callbacks with closures to pass lickData and templateData along
+  $.get(`/users/${this.user_id}/notes`, notesIndexTemplateCallback(this));
 }
 
 function renderLicks() {
@@ -195,53 +241,18 @@ function showLick(id, user_id) {
   //display lick#show view by sending AJAX GET request, removing lick#index elements, and adding lick#show elements
   $.getJSON(`/users/${user_id}/licks/${id}`, function(data) {
 
+    const lick = new Lick(data);
+
     //update header directly by replacing with name of lick
-    $('#licks-header').html(data["name"]);
+    $('#licks-header').html(lick.name);
 
-    displayBasicLickInfo(data);
-    displayLickTonalities(data);
-    displayLickBackingTracks(data);
-    displayLickShowOptions(data);
-    displayNotes(data);
+    //piece together show view with series of DOM manipulations and template compiles
+    lick.displayBasicLickInfo();
+    lick.displayLickTonalities();
+    lick.displayLickBackingTracks();
+    lick.displayLickShowOptions();
+    lick.displayNotes();
   });
-}
-
-function displayBasicLickInfo(data) {
-  //make a template for "basic information", remove licks#index and replace with specific lick info
-  const template = Handlebars.compile(document.getElementById('lick-show-basic-info').innerHTML);
-  const lickHTML = template(data);
-  $('#licks').html(lickHTML);
-}
-
-function displayLickTonalities(data) {
-  //make a template for "tonalities" associated with lick and display on page
-  if (data["tonalities"].length > 0) {
-    const template = Handlebars.compile(document.getElementById('lick-show-tonalities-list').innerHTML);
-    const tonalitiesHTML = template(data["tonalities"])
-    $('#licks').append(tonalitiesHTML);
-  } else {
-    $('#licks').append("<h4>Tonalities</h4><ul><li>This lick doesn't currently have any tonalities</li></ul>");
-  }
-}
-
-function displayLickBackingTracks(data) {
-  //make a template for "backing_tracks" associated with lick and display on page
-  if (data["backing_tracks"].length > 0) {
-    const template = Handlebars.compile(document.getElementById('lick-show-backing-tracks-list').innerHTML);
-    const backingTracksHTML = template(data["backing_tracks"])
-    $('#licks').append(backingTracksHTML);
-  } else {
-    $('#licks').append("<h4>Backing Tracks</h4><ul><li>This lick doesn't currently have any backing tracks</li></ul>");
-  }
-}
-
-function displayLickShowOptions(data) {
-  //make a template for "show options" that displays the "edit lick" and "delete lick" buttons
-  const template = Handlebars.compile(document.getElementById('lick-show-options').innerHTML);
-  const optionsHTML = template(data);
-  $('#view-options').html(optionsHTML);
-  attachDeleteHandler(data);
-  attachBackHandler();
 }
 
 function attachDeleteHandler(data) {
