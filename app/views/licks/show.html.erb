@@ -1,4 +1,4 @@
-<h2><%= @lick.name %><%= artist_name(@lick) %></h2>
+<h2 class="lick-show-header"><%= @lick.name %><%= artist_name(@lick) %></h2>
 
 <%= render 'layouts/messages' %>
 
@@ -14,3 +14,25 @@
 <%= button_to "Edit Lick", edit_user_lick_path(@user, @lick), method: 'get' %><br>
 
 <%= button_to "Delete Lick", user_lick_path(@user, @lick), method: 'delete'%>
+
+<h4 id="notes-header">Notes</h4>
+
+<div id="notes-errors"></div>
+
+<div id="new-note">
+  <form id="new-note-form" action="/users/<%= @user.id %>/notes" method="post">
+    <input type="hidden" name="lick_id" value="<%= @lick.id %>">
+    <input type="hidden" name="user_id" value="<%= @user.id %>">
+    <textarea name="content" rows="8" cols="80"></textarea><br>
+    <input type="submit" value="Add note">
+  </form>
+</div>
+
+<div id="notes-list">
+  <% if @lick.notes.length > 0 %>
+    <% @lick.notes.reverse.each do |note| %>
+      <p><strong><%= format_date(note.created_at) %></strong></p>
+      <p class="notes-p-tags"><%= note.content %></p>
+    <% end %>
+  <% end %>
+</div>

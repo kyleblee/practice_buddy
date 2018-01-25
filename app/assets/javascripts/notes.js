@@ -5,6 +5,10 @@ $(document).on('turbolinks:load', function() {
       return dateHTML;
     };
   });
+
+  if ($('h2').hasClass('lick-show-header')) {
+    attachAddNoteEventListener();
+  }
 });
 
 function displayNotes(lickData) {
@@ -37,6 +41,10 @@ function renderNewNoteTemplate(lickData, templateData) {
   const template = Handlebars.compile(templateData);
   const newNoteHTML = template(lickData);
   $('#new-note').html(newNoteHTML);
+  attachAddNoteEventListener();
+}
+
+function attachAddNoteEventListener() {
   $('form#new-note-form').on('submit', function(e) {
     e.preventDefault();
     const formData = $(this).serialize();
@@ -48,7 +56,7 @@ function renderNewNoteTemplate(lickData, templateData) {
         showNewNote(data);
       },
       error: function(response) {
-        $('div#notes-errors').html("<em>Sorry, something went wrong. Please try again.</em>")
+        $('div#notes-errors').html("<em>Sorry, something went wrong. Please try again.</em><br><br>")
       }
     });
   });
