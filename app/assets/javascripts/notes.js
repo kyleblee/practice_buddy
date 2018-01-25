@@ -11,12 +11,10 @@ $(document).on('turbolinks:load', function() {
   }
 });
 
+// to implement JavaScript OOP requirement
 let Note = function(attributes) {
-  this.id = attributes.id;
-  this.content = attributes.content;
-  this.user_id = attributes.user_id;
-  this.lick_id = attributes.lick_id;
-  this.created_at = attributes.created_at;
+  const keys = Object.keys(attributes);
+  for (let key of keys) { this[key] = attributes[key] }
 }
 
 Note.prototype.formatCreatedAtDate = function() {

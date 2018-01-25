@@ -53,26 +53,10 @@ $(document).on('turbolinks:load', function() {
   };
 });
 
-// to implement JavaScript OOP requirement (mostly going to use this for
-// single lick views--like, licks#show--and for notes, if I can get that to work)
+// to implement JavaScript OOP requirement
 let Lick = function(attributes) {
-  //refactor this by manually building out mass assignment
-  this.id = attributes.id;
-  this.name = attributes.name;
-  this.bpm = attributes.bpm;
-  this.last_practiced = attributes.last_practiced;
-  this.scheduled_practice = attributes.scheduled_practice;
-  this.current_key = attributes.current_key;
-  this.description = attributes.description;
-  this.description = attributes.description;
-  this.performance_rating = attributes.performance_rating;
-  this.artist_id = attributes.artist_id;
-  this.user_id = attributes.user_id;
-  this.created_at = attributes.created_at;
-  this.updated_at = attributes.updated_at;
-  this.notes = attributes.notes;
-  this.tonalities = attributes.tonalities;
-  this.backing_tracks = attributes.backing_tracks;
+  const keys = Object.keys(attributes);
+  for (let key of keys) { this[key] = attributes[key] }
 }
 
 Lick.prototype.formatDate = function(desiredDateKey) {
