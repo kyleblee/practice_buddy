@@ -115,13 +115,18 @@ Lick.prototype.displayLickShowOptions = function() {
   const template = Handlebars.compile(document.getElementById('lick-show-options').innerHTML);
   const optionsHTML = template(this);
   $('#view-options').html(optionsHTML);
-  attachDeleteHandler(this);
+  this.attachDeleteHandler();
   attachBackHandler();
 }
 
 Lick.prototype.displayNotes = function() {
   //get Handlebars templates for notes and use callbacks with closures to pass lickData and templateData along
   $.get(`/users/${this.user_id}/notes`, notesIndexTemplateCallback(this));
+}
+
+Lick.prototype.attachDeleteHandler = function() {
+  // attach click handler to delete button and use a closure to pass data and the event
+  $('button#delete-lick-button').on('click', deleteHandler(this));
 }
 
 function renderLicks() {
@@ -255,11 +260,6 @@ function showLick(id, user_id) {
   });
 }
 
-function attachDeleteHandler(data) {
-  // attach click handler to delete button and use a closure to pass data and the event
-  $('button#delete-lick-button').on('click', deleteHandler(data));
-}
-
 function deleteHandler(data) {
   //closure to pass both event and data
   return function(e) { sendDeleteRequest(e, data) };
@@ -268,7 +268,6 @@ function deleteHandler(data) {
 function sendDeleteRequest(e, data) {
   //confirm delete and then send request via AJAX if approved
   if (confirm("Are you sure you want to delete this lick?")) {
-    debugger;
     $.ajax({
       url: `/users/${data["user_id"]}/licks/${data["id"]}`,
       method: 'delete'

@@ -25,11 +25,6 @@ Note.prototype.formatCreatedAtDate = function() {
   return dateInfo;
 }
 
-// function displayNotes(lickData) {
-//   //get Handlebars templates for notes and use callbacks with closures to pass lickData and templateData along
-//   $.get(`/users/${lickData["user_id"]}/notes`, notesIndexTemplateCallback(lickData));
-// }
-
 function notesIndexTemplateCallback(lickData) {
   return function(data) {
     renderNotesIndexTemplate(lickData, data);
