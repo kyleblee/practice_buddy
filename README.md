@@ -6,6 +6,10 @@ Part of becoming a better musician (particularly for improvisers) is developing 
 
 Let PracticeBuddy help you keep track of your "bag of licks," so you can focus on keeping past phrases fresh, digesting new ones, and becoming the best player you can be.
 
+Blog posts going into depth on process / functionality:
+- http://kyleblee.com/practicebuddy_rails_project
+- http://kyleblee.com/practicebuddy_rails_app_with_jquery_front_end
+
 ### Installation Guide
 
 To install and use this project, fork and clone the repo. Then, run `bundle install` in your command line,
